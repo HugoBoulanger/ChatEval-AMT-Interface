@@ -1,0 +1,117 @@
+<h3>Overview</h3>
+
+<p style="margin-bottom: 15px; font-size: 16px; line-height: 1.72222; color: rgb(52, 73, 94); font-family: Lato, Helvetica, Arial, sans-serif;">In this job, you will be presented with conversations between two interalocutors (a conversational system S and a user U). Review the conversation to determine whether the last utterance by S causes a breakdown in the conversation or not.</p>
+
+<p style="margin-bottom: 15px; font-size: 16px; line-height: 1.72222; color: rgb(52, 73, 94); font-family: Lato, Helvetica, Arial, sans-serif;"><span style="color: rgb(209, 72, 65);">This task requires native English skills.<br />
+Please refrain from joining this task if you are a non-native speaker of English.</span></p>
+
+<h3>Step</h3>
+
+<ol style="margin-bottom: 15px; font-size: 15px; color: rgb(52, 73, 94); font-family: Lato, Helvetica, Arial, sans-serif;">
+	<li>Read the conversation.</li>
+	<li>Determine if the last utterance causes a breakdown in the conversation.</li>
+</ol>
+
+<h3>Rules & Tips</h3>
+
+<p style="margin-bottom: 15px; font-size: 16px; line-height: 1.72222; color: rgb(52, 73, 94); font-family: Lato, Helvetica, Arial, sans-serif;">For the last utterance of each conversation, you will choose BREAKDOWN, POSSIBLE BREAKDOWN, or NOT A BREAKDOWN:</p>
+
+<p><span style="color: rgb(52, 73, 94); font-family: Lato, Helvetica, Arial, sans-serif; font-size: 16px;">The key notion is 'difficulty in continuing the conversation smoothly'.</span></p>
+
+<table class="table table-condensed table-striped table-responsive">
+	<tbody>
+	</tbody>
+	<colgroup>
+		<col class="col-xs-2 col-md-2" />
+		<col class="col-xs-10 col-md-10" />
+	</colgroup>
+	<!-- By explaining the sentiment scale, the accuracy of the answers may increase. -->
+	<tbody>
+		<tr>
+			<th>Label</th>
+			<th>Guidance</th>
+		</tr>
+		<tr>
+			<td>NOT A BREAKDOWN</td>
+			<td>means that it is easy to continue the conversation after the utterance in question.</td>
+		</tr>
+		<tr>
+			<td>POSSIBLE BREAKDOWN</td>
+			<td>means that it is difficult to continue the conversation smoothly after the utterance in question.</td>
+		</tr>
+		<tr>
+			<td>BREAKDOWN</td>
+			<td>means that it is difficult to continue the conversation after the utterance in question.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h4>&nbsp;Note:</h4>
+
+<p>Consider not only the preceding utterance but also all the given history utterances if exist for making your judgment. There are no objective and concrete criteria to choose between BREAKDOWN, POSSIBLY, and NOT A BREAKDOWN. It is okay to be subjective in making decisions.</p>
+
+<p>Note that emojis are replaced with alternative texts (e.g.,[SMILE])</p>
+
+<h3>Example</h3>
+
+<table class="table table-condensed table-striped table-responsive">
+	<tbody>
+	</tbody>
+	<colgroup>
+		<col class="col-xs-8 col-md-8" />
+		<col class="col-xs-4 col-md-4" />
+	</colgroup>
+	<!-- By explaining the sentiment scale, the accuracy of the answers may increase. -->
+	<tbody>
+		<tr>
+			<td>
+			<p>NOT A BREAKDOWN</p>
+
+			<p>In this example, the last utterance is a suitable response to a greeting. So, this is not a breakdown.</p>
+			</td>
+			<td>​U: How are you?<br />
+			S: Fine. How about you?</td>
+		</tr>
+		<tr>
+			<td>
+			<p>POSSIBLE BREAKDOWN</p>
+
+			<p>​In this example, the last utterance is socially awkward. So this can be labeled a possible breakdown.</p>
+			</td>
+			<td>U: How are you?<br />
+			S: Does it matter?</td>
+		</tr>
+		<tr>
+			<td>
+			<p>BREAKDOWN</p>
+
+			<p>In this example, the last utterance does not make any sense. So, &nbsp;this will be given a breakdown label.</p>
+			</td>
+			<td>
+			<p>U: How are you?<br />
+			S: I am a green fire of fish.</p>
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<p>BREAKDOWN</p>
+
+			<div>In this example, the last utterance is not answering the question at all.</div>
+			</td>
+			<td>U: What is your hobby, then?<br />
+			S: When was your last trip?</td>
+		</tr>
+		<tr>
+			<td>
+			<p>BREAKDOWN</p>
+
+			<div>In this example, the last utterance is inconsistent with the first utterance.</div>
+			</td>
+			<td>S: It's nice to go shopping alone.<br />
+			U: I agree. That's nice.<br />
+			S: Shopping takes time.<br />
+			U: Window shopping is also fun.<br />
+			S: It's fun to go shopping with somebody.</td>
+		</tr>
+	</tbody>
+</table>

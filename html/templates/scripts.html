@@ -1,0 +1,38 @@
+<!-- Open internal javascript -->
+<script>
+
+  $(document).ready(function() {
+
+    // Instructions expand/collapse
+
+    var content = $('#instructionBody');
+
+    var trigger = $('#collapseTrigger');
+
+    // content.hide();
+
+    $('.collapse-text').text('(Click to Collapse)');
+
+    trigger.click(function(){
+
+      content.toggle();
+
+      var isVisible = content.is(':visible');
+
+      if(isVisible){
+
+        $('.collapse-text').text('(Click to Collapse)');
+
+      }else{
+
+        $('.collapse-text').text('(Click to Expand)');
+
+      }
+
+    });
+
+    // end expand/collapse
+
+  });
+
+</script><!-- CLose internal javascript -->
