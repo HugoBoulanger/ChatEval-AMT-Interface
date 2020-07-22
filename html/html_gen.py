@@ -1,13 +1,26 @@
 import os, sys
 import argparse
 
-def generate_dialogue(n):
-    dialogue = '<p class="well">S: ${TURN_1}<br />'
-    for i in range(2, n+2):
-        if i%2 == 0:
-            dialogue += '\nU: ${TURN_' + f'{i}' + '}<br />'
+
+def generate_dialogue(n, window=None):
+    """
+    Generate the dialogue for the question
+    :param n: max turn
+    :param window: window for question
+    :return:
+    """
+    if window is None:
+        window = n
+    elif window > n:
+        window = n
+
+    dialogue = f'<p class="well">U{1 if (n - window + 1)%2 == 1 else 2}' +': ${TURN_' + f'{n - window + 1}' +'}<br />'
+
+    for i in range(n - window + 2, n + 1):
+        if i % 2 == 0:
+            dialogue += '\nU2: ${TURN_' + f'{i}' + '}<br />'
         else:
-            dialogue += '\nS: ${TURN_' + f'{i}' + '}<br />'
+            dialogue += '\nU1: ${TURN_' + f'{i}' + '}<br />'
 
     dialogue = dialogue[:-5] + '/p>\n'
 
@@ -32,19 +45,19 @@ S: ${TURN_3}</p>)
     question_html += question
 
     for a in answer:
-        question_html += '\n' + f'<div class="radio"><label><input name="{name}" required="true" type="radio" value="{a}" />{a} </label></div>\n'
+        question_html += '\n' + f'<div class="radio"><label><input name="{name}" required="true" type="radio" value="{a[1]}" />{a[0]} </label></div>\n'
 
     question_html += '</div>\n</div>\n'
 
     return question_html
 
-def generate_n_question(instruction, question, answer, n, warning):
+def generate_n_question(instruction, question, answer, n, warning, window=None, user="both"):
     """
     Generates the survey body
     :param instruction: str containing the instruction (example : Read the text below paying close attention to detail, especially to the last utterance:)
     :param question: str containing the question (example : Select one of the breakdown labels. (required))
     :param answer: list of the possible answers (example : ['BREAKDOWN', 'POSSIBLE BREAKDOWN', 'NOT A BREAKDOWN'])
-    :param n:
+    :param n: max turn
     :param warning: str containing the warning message about cheating
     :return: the full body of the survey
     """
@@ -52,8 +65,19 @@ def generate_n_question(instruction, question, answer, n, warning):
     questions_html = '<div class="row" id="workContent" name="Bot001_044">\n<div class="col-sm-8 col-sm-offset-2">\n'
     questions_html += f'<p style="margin-bottom: 15px; font-size: 16px; line-height: 1.72222; color: rgb(52, 73, 94); font-family: Lato, Helvetica, Arial, sans-serif;"><span style="color: rgb(209, 72, 65);">{warning} </span></p>\n'
 
-    for i in range(1, n+1):
-        q = generate_question(instruction, question, answer, f"_{2*i:02d}", generate_dialogue(2*i))
+    # Which users we want to annotate
+    if user == "both":
+        beg = 1
+        step = 1
+    elif user == 'user1':
+        beg = 1
+        step = 2
+    else:
+        beg = 2
+        step = 2
+
+    for i in range(beg, n+1, step):
+        q = generate_question(instruction, question, answer, f"_{i:02d}", generate_dialogue(i, window=window))
         questions_html += q
 
     questions_html += '</div>\n</div>\n'
@@ -128,17 +152,37 @@ def generate_full_html(path_instructions, generated_questions):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('instructions', type=str)
-    parser.add_argument('task', type=str)
-    parser.add_argument('-n', type=int, default=5)
+    parser.add_argument('instructions', type=str, help="Path to the file of html format instructions.")
+    parser.add_argument('task', type=str, help="Task name. If the task name doesn't exist, you may add support by modifying the dictionaries of the python file.")
+    parser.add_argument('-n', type=int, default=15, help="Max turn number (default 15).")
     parser.add_argument('--out_dir', type=str, default='./hits')
     args = parser.parse_args()
 
-    task_answer_dictionary = {'breakdown': ['BREAKDOWN', 'POSSIBLE BREAKDOWN', 'NOT A BREAKDOWN']}
-    task_question_dictionary = {'breakdown': 'Select one of the breakdown labels. (required)'}
-    task_warning_dictionary = {'breakdown': 'The result may not be approved if it is considered as cheating by checking utterances which consist of Obviously BREAKDOWN and NOT A BREAKDOWN utterances. '}
+    task_answer_dictionary = {'breakdown': [('BREAKDOWN', 0), ('POSSIBLE BREAKDOWN', 1), ('NOT A BREAKDOWN', 2)],
+                              'validity': [("Doesn't make sense in context", 1), ("Could make sense but not natural", 2), ("Makes sense in context", 3)]}
+    task_question_dictionary = {'breakdown': 'Select one of the breakdown labels. (required)',
+                                'validity' : "Does the final occurance make sense? (required)"}
+    task_warning_dictionary = {'breakdown': 'The result may not be approved if it is considered as cheating by checking utterances which consist of Obviously BREAKDOWN and NOT A BREAKDOWN utterances. ',
+                               "validity": 'The result may not be approved if it is considered as cheating by checking utterances which consist of utterances obviously making sense or not. '}
+    task_window_dictionary = {'breakdown': None,
+                              'validity': 4}
+    task_user_dictionary = {'breakdown': 'user2',
+                            'validity': 'both'}
 
-    h = generate_full_html(args.instructions, generate_n_question('read to last utterance', task_question_dictionary[args.task], task_answer_dictionary[args.task], args.n, task_warning_dictionary[args.task]))
+
+    if args.task not in task_answer_dictionary:
+        print(f"Task : {args.task} not supported.")
+        exit(1)
+
+    h = generate_full_html(args.instructions,
+                           generate_n_question('read to last utterance',
+                                               task_question_dictionary[args.task],
+                                               task_answer_dictionary[args.task],
+                                               args.n,
+                                               task_warning_dictionary[args.task],
+                                               task_window_dictionary[args.task],
+                                               task_user_dictionary[args.task]))
+
     #print(h)
     f = open(os.path.join(args.out_dir, f'{args.task}_{args.n}.html'), 'w')
     f.write(h)
