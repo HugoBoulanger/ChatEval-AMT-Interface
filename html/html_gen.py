@@ -189,6 +189,8 @@ if __name__ == '__main__':
                                                task_user_dictionary[args.task]))
 
     #print(h)
+    if not os.path.exists(args.out_dir):
+        os.mkdir(args.out_dir)
     f = open(os.path.join(args.out_dir, f'{args.task}_{args.n}.html'), 'w')
     f.write(h)
     f.close()
