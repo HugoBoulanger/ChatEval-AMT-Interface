@@ -159,15 +159,20 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     task_answer_dictionary = {'breakdown': [('BREAKDOWN', 0), ('POSSIBLE BREAKDOWN', 1), ('NOT A BREAKDOWN', 2)],
-                              'validity': [("Doesn't make sense in context", 1), ("Could make sense but not natural", 2), ("Makes sense in context", 3)]}
+                              'validity_3pt': [("Doesn't make sense in context", 1), ("Could make sense but not natural", 2), ("Makes sense in context", 3)],
+                              'validity_4pt': [("does not make sense at all", 1), ("might make sense, but strange given context", 2), ("makes sense in context but not very natural", 3), ("makes good sense in context.", 4)]}
     task_question_dictionary = {'breakdown': 'Select one of the breakdown labels. (required)',
-                                'validity' : "Does the final occurance make sense? (required)"}
+                                'validity_3pt' : "Does the final occurance make sense? (required)",
+                                'validity_4pt' : "Does the final occurance make sense? (required)"}
     task_warning_dictionary = {'breakdown': 'The result may not be approved if it is considered as cheating by checking utterances which consist of Obviously BREAKDOWN and NOT A BREAKDOWN utterances. ',
-                               "validity": 'The result may not be approved if it is considered as cheating by checking utterances which consist of utterances obviously making sense or not. '}
+                               "validity_3pt": 'The result may not be approved if it is considered as cheating by checking utterances which consist of utterances obviously making sense or not. ',
+                               "validity_4pt": 'The result may not be approved if it is considered as cheating by checking utterances which consist of utterances obviously making sense or not. '}
     task_window_dictionary = {'breakdown': None,
-                              'validity': 4}
+                              'validity_3pt': 4,
+                              'validity_4pt': 4}
     task_user_dictionary = {'breakdown': 'user2',
-                            'validity': 'both'}
+                            'validity_3pt': 'both',
+                            'validity_4pt': 'both'}
 
 
     if args.task not in task_answer_dictionary:
