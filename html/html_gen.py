@@ -33,7 +33,7 @@ def generate_dialogue(n, window):
     :param window: number of turns in the dialogue
     :return:
     """
-    dialogue = f'<p class="well">U1' +': ${TURN_' + f'{n}_{1}' +'}<br />'
+    dialogue = f'<p class="well">U1' +': ${DIALOG_' + f'{n}_{1}' +'}<br />'
 
     for i in range(2, window + 1):
         if i % 2 == 0:
