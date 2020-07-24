@@ -11,6 +11,8 @@ def create_HIT(path_html, hit_description, hit_id, mturk, sandbox=False):
     question_html_value = f.read()
     f.close()
 
+    question_html_value = question_html_value.encode('ascii', 'xmlcharrefreplace').decode()
+    print(question_html_value)
     try:
         # These parameters define the HIT that will be created
         # question is what we defined above

@@ -2,7 +2,7 @@ import os, sys
 import argparse
 
 
-def generate_dialogue(n, window=None):
+def generate_dialogue_old(n, window=None):
     """
     Generate the dialogue for the question
     :param n: max turn
@@ -26,6 +26,24 @@ def generate_dialogue(n, window=None):
 
     return dialogue
 
+def generate_dialogue(n, window):
+    """
+    Generate the dialogue for the question
+    :param n: the number of the dialogue
+    :param window: number of turns in the dialogue
+    :return:
+    """
+    dialogue = f'<p class="well">U1' +': ${TURN_' + f'{n}_{1}' +'}<br />'
+
+    for i in range(2, window + 1):
+        if i % 2 == 0:
+            dialogue += '\nU2: ${DIALOG_' + f'{n}_{i}' + '}<br />'
+        else:
+            dialogue += '\nU1: ${DIALOG_' + f'{n}_{i}' + '}<br />'
+
+    dialogue = dialogue[:-5] + '/p>\n'
+
+    return dialogue
 
 def generate_question(instruction, question, answer, name, dialogue):
     """
@@ -51,7 +69,8 @@ S: ${TURN_3}</p>)
 
     return question_html
 
-def generate_n_question(instruction, question, answer, n, warning, window=None, user="both"):
+
+def generate_n_question_old(instruction, question, answer, n, warning, window=None, user="both"):
     """
     Generates the survey body
     :param instruction: str containing the instruction (example : Read the text below paying close attention to detail, especially to the last utterance:)
@@ -77,6 +96,28 @@ def generate_n_question(instruction, question, answer, n, warning, window=None, 
         step = 2
 
     for i in range(beg, n+1, step):
+        q = generate_question(instruction, question, answer, f"_{i:02d}", generate_dialogue(i, window=window))
+        questions_html += q
+
+    questions_html += '</div>\n</div>\n'
+
+    return questions_html
+
+
+def generate_n_question(instruction, question, answer, n, warning, window, user="both"):
+    """
+        Generates the survey body
+        :param instruction: str containing the instruction (example : Read the text below paying close attention to detail, especially to the last utterance:)
+        :param question: str containing the question (example : Select one of the breakdown labels. (required))
+        :param answer: list of the possible answers (example : ['BREAKDOWN', 'POSSIBLE BREAKDOWN', 'NOT A BREAKDOWN'])
+        :param n: max turn
+        :param warning: str containing the warning message about cheating
+        :return: the full body of the survey
+    """
+    questions_html = '<div class="row" id="workContent" name="Bot001_044">\n<div class="col-sm-8 col-sm-offset-2">\n'
+    questions_html += f'<p style="margin-bottom: 15px; font-size: 16px; line-height: 1.72222; color: rgb(52, 73, 94); font-family: Lato, Helvetica, Arial, sans-serif;"><span style="color: rgb(209, 72, 65);">{warning} </span></p>\n'
+
+    for i in range(1, n+1):
         q = generate_question(instruction, question, answer, f"_{i:02d}", generate_dialogue(i, window=window))
         questions_html += q
 
@@ -115,6 +156,7 @@ def generate_full_html(path_instructions, generated_questions):
     :return: the html string
     """
     html = """
+    <HTMLContent><![CDATA[
     <!DOCTYPE html>
     <html>
     <title></title>
@@ -146,6 +188,8 @@ def generate_full_html(path_instructions, generated_questions):
     html += '<p class="text-center"><input class="btn btn-primary" id="submitButton" type="submit" value="Submit" /></p>\n'
     html += '<script language="Javascript">turkSetAssignmentID();</script>\n'
     html += '</html>'
+    html += """]]>
+    </HTMLContent>"""
     return html
 
 
@@ -154,7 +198,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('instructions', type=str, help="Path to the file of html format instructions.")
     parser.add_argument('task', type=str, help="Task name. If the task name doesn't exist, you may add support by modifying the dictionaries of the python file.")
-    parser.add_argument('-n', type=int, default=15, help="Max turn number (default 15).")
+    parser.add_argument('-n', type=int, default=3, help="Max turn number (default 15).")
     parser.add_argument('--out_dir', type=str, default='./hits')
     args = parser.parse_args()
 
