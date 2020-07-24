@@ -48,7 +48,7 @@ def format_validity(sce_path, dst_path, nb_annot_per_hit=3):
 
     headers = []
     for i in range(nb_annot_per_hit):
-        headers.extend([f'NUMBER_{i+1}', f'DIALOG_{i+1}_1', f'DIALOG_{i+1}_2', f'DIALOG_1_3', f'DIALOG_{i+1}_4'])
+        headers.extend([f'NUMBER_{i+1}', f'DIALOG_{i+1}_1', f'DIALOG_{i+1}_2', f'DIALOG_{i+1}_3', f'DIALOG_{i+1}_4'])
     dst_rows = [headers]
     # dst_rows = [['NUMBER_1', 'DIALOG_1_1', 'DIALOG_1_2', 'DIALOG_1_3', 'DIALOG_1_4',
     #              'NUMBER_2', 'DIALOG_2_1', 'DIALOG_2_2', 'DIALOG_2_3', 'DIALOG_2_4',
