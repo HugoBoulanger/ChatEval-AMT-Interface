@@ -156,6 +156,7 @@ def generate_full_html(path_instructions, generated_questions):
     :return: the html string
     """
     html = """
+    <HTMLQuestion xmlns="http://mechanicalturk.amazonaws.com/AWSMechanicalTurkDataSchemas/2011-11-11/HTMLQuestion.xsd">
     <HTMLContent><![CDATA[
     <!DOCTYPE html>
     <html>
@@ -189,7 +190,9 @@ def generate_full_html(path_instructions, generated_questions):
     html += '<script language="Javascript">turkSetAssignmentID();</script>\n'
     html += '</html>'
     html += """]]>
-    </HTMLContent>"""
+    </HTMLContent>
+    <FrameHeight>600</FrameHeight>
+    </HTMLQuestion>"""
     return html
 
 
