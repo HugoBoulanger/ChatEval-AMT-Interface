@@ -65,6 +65,8 @@ def format_validity(sce_path, dst_path, nb_annot_per_hit=3):
         dst_row = []
         for j in range(j_min, j_max):
             dst_row.extend(validity_rows[j])
+        for j in range(j_max, j_min + nb_annot_per_hit):
+            dst_row.extend(['None', '[empty line]', '[empty line]', '[empty line]', 'Please select valid.'])
         dst_rows.append(dst_row)
     print(f'nb of hits = {len(dst_rows) - 1}')
 
