@@ -1,6 +1,7 @@
 import boto3
 import argparse
 import sys
+import re
 
 sys.path.append('../python/utils')
 import utils
@@ -57,7 +58,14 @@ if __name__ == '__main__':
     parser.add_argument('-b', '--sandbox',
                         default=False, action='store_true',
                         help='Set to true to run in the sandbox.')
-
+    parser.add_argument('-n', type=int, default=3, help="Number of judgments (default 3)")
+    parser.add_argument('--wage_per_judgement', type=float, default=0.01, help='Wage per judgement (default 0.05)')
+    parser.add_argument('--duration', type=int, default=180, help="Assignment Duration in seconds")
+    parser.add_argument('--lifetime', type=int, default=172800, help="Lifetime of the Hits")
+    parser.add_argument('--keywords', type=str, default='dialogue, evaluation, response, chatting', help="Keywords of the HIT")
+    parser.add_argument('--description', type=str, default='Annotation of conversations')
+    parser.add_argument('--max_assignements', type=int, default=1)
+    parser.add_argument('--title', type=str, default='JSALT 2020 : Annotation of conversation.')
     args = parser.parse_args()
 
     # Create your connection to MTurk
@@ -71,13 +79,13 @@ if __name__ == '__main__':
         if not check in ['Y','y','Yes','yes']:
             exit()
 
-    hit_description = {'Title': "Testing validation generation of html.",
-                       'MaxAssignments' : 1,
-            'Description': "Testing the generation of the html for the validation task",
-            'Keywords': "sandbox",
-            'AssignmentDurationInSeconds': 180,
-            'LifetimeInSeconds': 172800,
-            'Reward': "0.10"}
+    hit_description = {'Title': args.title,
+                       'MaxAssignments' : args.max_assignments,
+            'Description': args.description,
+            'Keywords': args.keywords,
+            'AssignmentDurationInSeconds': args.duration,
+            'LifetimeInSeconds': args.lifetime,
+            'Reward': f"{args.n * args.wage_per_judgement}"}
 
     hit_id = create_HIT(args.html, hit_description, f"cb_eval_{args.name}", mturk, sandbox=args.sandbox)
     with open('hits.txt', 'w') as f_out:

@@ -1,16 +1,17 @@
 <h3>VALIDITY</h3>
 
-<p style="margin-bottom: 15px; font-size: 16px; line-height: 1.72222; color: rgb(52, 73, 94); font-family: Lato, Helvetica, Arial, sans-serif;">You will be presented with an excerpt of a short dialogue exchange between two people. Please rate whether the final utterance makes sense, given the prior exchange. If you were talking to someone and they said this, would it make sense?:</p>
+<p style="margin-bottom: 15px; font-size: 16px; line-height: 1.72222; color: rgb(52, 73, 94); font-family: Lato, Helvetica, Arial, sans-serif;">You will be presented with an excerpt of a short dialogue exchange between two people.
+Please rate whether the final utterance is a valid response, given the prior exchange.:</p>
 
 
 <h4>4-level scale:</h4>
 
-<ol style="margin-bottom: 15px; font-size: 15px; color: rgb(52, 73, 94); font-family: Lato, Helvetica, Arial, sans-serif;">
-	<li>1 = does not make sense at all.</li>
-	<li>2 = might make sense, but strange given context</li>
-	<li>3 = makes sense in context but not very natural</li>
-	<li>4 = makes good sense in context.</li>
-</ol>
+<ul style="margin-bottom: 15px; font-size: 15px; color: rgb(52, 73, 94); font-family: Lato, Helvetica, Arial, sans-serif;">
+	<li>Invalid response</li>
+	<li>Somewhat acceptable response</li>
+	<li>Probably acceptable response</li>
+	<li>Valid response</li>
+</ul>
 
 
 <h3>Example</h3>
@@ -23,52 +24,92 @@
 		<col class="col-xs-4 col-md-4" />
 	</colgroup>
 	<!-- By explaining the sentiment scale, the accuracy of the answers may increase. -->
-	<tbody>
+	<tr>
 		<tr>
-			<td>
-			<p>1 (not a valid response)</p>
-
+			<th><p>1 (invalid response):</p></th><th></th>
+			<tr>
+			<th>
 				<p>Example 1</p>
-			</td>
+			</th>
+			<td>
+				U1: Do you know google? {CONTEXT}<br />
+			U2: Uh-huh, I do. {CONTEXT}<br />
+			U1: who is google? {CONTEXT}<br />
+			U2: Not necessarily.</td>
+			</tr>
+			<tr>
+			<th>
+				<p>Example 2</p>
+			</th>
 			<td>
 				U1: so what's up today? {CONTEXT}<br />
 			U2: they lived together {CONTEXT}<br />
 			U1: who lived together? and when? {CONTEXT}<br />
 			U2: where's Gordon has he changed</td>
+			</tr>
 		</tr>
 		<tr>
-			<td>
-			<p>2 (Somewhat acceptable response):</p>
-
-			<p>Example 1</p>
-			</td>
-			<td>U1:i said no {CONTEXT}<br />
+			<th><p>2 (Somewhat acceptable response):</p></th><th></th>
+			<tr>
+			<th>
+				<p>Example 1</p>
+			</th>
+			<td>U1: i said no {CONTEXT}<br />
 			U2: you said no to who and to what {CONTEXT}<br />
 			U1: from morning edition {CONTEXT}<br />
 			U2: hmmm waking-up is hard.</td>
+			</tr>
+			<tr>
+			<th>
+				<p>Example 2</p>
+			</th>
+			<td>U1: Ok, I see. {CONTEXT}<br />
+			U2: Where are you going? {CONTEXT}<br />
+			U1: To the moon! {CONTEXT}<br />
+			U2: That's good. Reassure me.</td>
+
+			</tr>
 		</tr>
-
 		<tr>
-			<td>
-			<p>3 (Probably acceptable response):</p>
-
-			<div>Example 1</div>
-			</td>
+			<th><p>3 (Probably acceptable response):</p></th><th></th>
+			<tr>
+			<th>
+				<p>Example 1</p>
+			</th>
 			<td>U1: I like both actually. {CONTEXT}<br />
 			U2: Do you watch them with your kids? {CONTEXT}<br />
 			U1: I don't have kids. {CONTEXT}<br />
 			U2: let us make a plan to see the latest star war movies together</td>
+			</tr>
+			<tr>
+			<th>
+			<p>Example 2</p>
+			</th>
+			<td>U1: oh good i'm so glad {CONTEXT}<br />
+			U2: yeah me too {CONTEXT}<br />
+			U1: you're supposed to {CONTEXT}<br />
+			U2: sure, what's the weather like?</td>
+				</tr>
 		</tr>
 		<tr>
-			<td>
-			<p>4 (Valid response)</p>
-
-			<div>Example 1</div>
-			</td>
+			<th><p>4 (Valid response):</p></th><th></th>
+			<tr>
+			<th>
+				<p>Example 1</p>
+			</th>
 			<td>U1: Well, I'm not sure about that but did you see the movie? {CONTEXT}<br />
 			U2: Do you like super hero movies or Disney movies? {CONTEXT}<br />
 			U1: I like both actually. {CONTEXT}<br />
 			U2: Do you watch them with your kids?</td>
 			</tr>
+			<tr>
+			<th>
+			<p>Example 2</p>
+			</th>
+			<td>U1: let's go together! {CONTEXT}<br />
+			U2: okay {CONTEXT}<br />
+			U1: where do we go? {CONTEXT}<br />
+			U2: Martinez at 6:00</td></tr>
+		</tr>
 	</tbody>
 </table>
