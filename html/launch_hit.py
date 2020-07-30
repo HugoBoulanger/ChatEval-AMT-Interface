@@ -2,15 +2,70 @@ import boto3
 import argparse
 import sys
 import re
+from html_gen import *
+import random
 
 sys.path.append('../python/utils')
+sys.path.append('../python/format')
 import utils
+from format import *
+from task_dictionaries import *
 
 
-def create_HIT(path_html, hit_description, hit_id, mturk, sandbox=False):
-    f = open(path_html, 'r')
-    question_html_value = f.read()
-    f.close()
+def make_dialogs(path_to_csv):
+    rows = read_csv(path_to_csv)
+    hed = rows[0]
+    rows = rows[1:]
+    for i in range(len(hed)):
+        hed[i] = hed[i].strip(';')
+    seg = hed.index('SEG')
+    uid = hed.index('UID')
+    for i in range(len(rows)):
+        rows[i] = [rows[i][uid], rows[i][seg]]
+    dialogs = get_rows_per_dialog(rows)
+    return dialogs
+
+def make_segments(dialogs, window, min_size=2):
+    min_size = min(min_size, window)
+
+    segments = []
+    for d in dialogs:
+        for i in range(min_size - 1, len(d)):
+            segments.append((d[i][0], [d[j][1] for j in range(max(0, i - window), i)]))
+
+    rand = random.Random()
+    rand.seed(a=1)
+    rand.shuffle(segments)
+
+    return segments
+
+
+def add_attention_checks(segments, n):
+    rand = random.Random()
+    rand.seed(a=1)
+
+    new_segments = []
+    i = 0
+
+    while i < len(segments):
+        batch = segments[i: min(i + n - 1, len(segments))]
+        attention = ("ATTENTION-CHECK", rand.choice(segments)[1])
+        attention[1][-1] = rand.choice(segments)[1][-1]
+        batch.append(attention)
+        rand.shuffle(batch)
+        new_segments.extend(batch)
+        i += n - 1
+
+    return new_segments
+
+
+def create_HIT(hit_description, hit_id, mturk, path_instructions, dialogs, task, sandbox=False):
+    question_html_value = generate_html_filled(path_instructions, generate_n_questions_filled('read to last utterance',
+                                               task_question_dictionary[task],
+                                               task_answer_dictionary[task],
+                                               dialogs,
+                                               task_warning_dictionary[task]),
+                                                dialogs)
 
     question_html_value = question_html_value.encode('ascii', 'xmlcharrefreplace').decode()
     try:
@@ -34,7 +89,7 @@ def create_HIT(path_html, hit_description, hit_id, mturk, sandbox=False):
             Keywords=hit_description['Keywords'],
             AssignmentDurationInSeconds=hit_description['AssignmentDurationInSeconds'],
             LifetimeInSeconds=hit_description['LifetimeInSeconds'],
-            Reward=hit_description['Reward'])
+            Reward=f"{hit_description['Reward'] * len(dialogs)}")
 
     except Exception as e:
         import pdb; pdb.set_trace()
@@ -53,18 +108,20 @@ def create_HIT(path_html, hit_description, hit_id, mturk, sandbox=False):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='Launches AMT HITs for ranking task.')
-    parser.add_argument('html', type=str, help="Html hit file")
+    parser.add_argument('task', type=str, help="task name")
+    parser.add_argument('path_csv', type=str, help="path towards the csv containing data")
     parser.add_argument('--name', type=str, help='hit name')
     parser.add_argument('-b', '--sandbox',
                         default=False, action='store_true',
                         help='Set to true to run in the sandbox.')
-    parser.add_argument('-n', type=int, default=3, help="Number of judgments (default 3)")
-    parser.add_argument('--wage_per_judgement', type=float, default=0.01, help='Wage per judgement (default 0.05)')
+    parser.add_argument('-n', type=int, default=10, help="Number of judgments (default 10)")
+    parser.add_argument('--window', type=int, default=4, help="dialog window size (default 4)")
+    parser.add_argument('--wage_per_judgement', type=float, default=0.01, help='Wage per judgement (default 0.01)')
     parser.add_argument('--duration', type=int, default=180, help="Assignment Duration in seconds")
     parser.add_argument('--lifetime', type=int, default=172800, help="Lifetime of the Hits")
     parser.add_argument('--keywords', type=str, default='dialogue, evaluation, response, chatting', help="Keywords of the HIT")
     parser.add_argument('--description', type=str, default='Annotation of conversations')
-    parser.add_argument('--max_assignements', type=int, default=1)
+    parser.add_argument('--max_assignments', type=int, default=1)
     parser.add_argument('--title', type=str, default='JSALT 2020 : Annotation of conversation.')
     args = parser.parse_args()
 
@@ -85,8 +142,20 @@ if __name__ == '__main__':
             'Keywords': args.keywords,
             'AssignmentDurationInSeconds': args.duration,
             'LifetimeInSeconds': args.lifetime,
-            'Reward': f"{args.n * args.wage_per_judgement}"}
+            'Reward': args.wage_per_judgement}
 
-    hit_id = create_HIT(args.html, hit_description, f"cb_eval_{args.name}", mturk, sandbox=args.sandbox)
+
+    dialogs = make_dialogs(args.path_csv)
+    segments = make_segments(dialogs, args.window)
+
+    segments = add_attention_checks(segments, args.n)
+
+    hit_ids = []
+    for i in range(0, len(segments), args.n):
+        hit_id = create_HIT(hit_description, args.name, mturk, task_instruction[args.task], segments[i:min(i+args.n, len(segments))], args.task, sandbox=args.sandbox)
+        hit_ids.append(hit_id)
+
+
     with open('hits.txt', 'w') as f_out:
-        f_out.write(hit_id)
+        for hit_id in hit_ids:
+            f_out.write('%s\n' % (hit_id))
