@@ -170,7 +170,7 @@ if __name__ == '__main__':
 
     hit_ids = []
     for i in range(0, len(segments), args.n):
-        hit_id = create_HIT(hit_description, args.name, mturk, task_instruction[args.task], segments[i:min(i + args.n +1, len(segments))], args.task, sandbox=args.sandbox, qualification=args.qualification)
+        hit_id = create_HIT(hit_description, args.name, mturk, task_instruction[args.task], segments[i:min(i + args.n, len(segments))], args.task, sandbox=args.sandbox, qualification=args.qualification)
         hit_ids.append(hit_id)
 
 
