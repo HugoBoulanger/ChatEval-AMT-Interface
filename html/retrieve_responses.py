@@ -24,6 +24,7 @@ parser.add_argument('-b', '--sandbox',
 parser.add_argument('-p', '--pay',
                     default=False, action='store_true',
                     help='Set to true to pay the workers.')
+parser.add_argument('-o', '--out_file', default='amt_hit_responses.pkl', type=str)
 
 args = parser.parse_args()
 
@@ -59,5 +60,5 @@ if __name__ == '__main__':
 
             worker_results_list.append(worker_results)
 
-    out_file_name = os.path.join(os.path.dirname(args.hit_list_path), 'amt_hit_responses.pkl')
+    out_file_name = os.path.join(os.path.dirname(args.hit_list_path), args.out_file)
     pickle.dump(worker_results_list, open(out_file_name, "wb"))
