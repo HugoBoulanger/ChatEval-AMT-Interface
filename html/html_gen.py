@@ -56,9 +56,9 @@ def generate_dialogue_filled(dialog):
 
     for i in range(1, len(dialog)):
         if i % 2 == 1:
-            dialogue += f'\nU2: {dialog[i]}<br />'
+            dialogue += f'\n{"<b>" if i == len(dialog)-1 else ""}U2: {dialog[i]}{"</b>" if i == len(dialog)-1 else ""}<br />'
         else:
-            dialogue += f'\nU1: {dialog[i]}<br />'
+            dialogue += f'\n{"<b>" if i == len(dialog)-1 else ""}U1: {dialog[i]}{"</b>" if i == len(dialog)-1 else ""}<br />'
 
     dialogue = dialogue[:-5] + '/p>\n'
 

@@ -21,7 +21,7 @@ def make_dialogs(path_to_csv):
     seg = hed.index('SEG')
     uid = hed.index('UID')
     for i in range(len(rows)):
-        rows[i] = [rows[i][uid], rows[i][seg]]
+        rows[i] = [rows[i][uid], rows[i][seg].strip(';')]
     dialogs = get_rows_per_dialog(rows)
     return dialogs
 
@@ -30,8 +30,8 @@ def make_segments(dialogs, window, min_size=2):
 
     segments = []
     for d in dialogs:
-        for i in range(min_size - 1, len(d)):
-            segments.append((d[i][0], [d[j][1] for j in range(max(0, i - window), i)]))
+        for i in range(min_size, len(d)):
+            segments.append((d[i][0], [d[j][1] for j in range(max(0, i - window + 1), i + 1)]))
 
     rand = random.Random()
     rand.seed(a=1)
@@ -48,7 +48,7 @@ def add_attention_checks(segments, n):
     i = 0
 
     while i < len(segments):
-        batch = segments[i: min(i + n - 1, len(segments))]
+        batch = segments[i: min(i + n, len(segments))]
         attention = ("ATTENTION-CHECK", rand.choice(segments)[1])
         attention[1][-1] = rand.choice(segments)[1][-1]
         batch.append(attention)
@@ -59,8 +59,8 @@ def add_attention_checks(segments, n):
     return new_segments
 
 
-def create_HIT(hit_description, hit_id, mturk, path_instructions, dialogs, task, sandbox=False):
-    question_html_value = generate_html_filled(path_instructions, generate_n_questions_filled('read to last utterance',
+def create_HIT(hit_description, hit_id, mturk, path_instructions, dialogs, task, sandbox=False, qualification=False):
+    question_html_value = generate_html_filled(path_instructions, generate_n_questions_filled('Read to last sentence.',
                                                task_question_dictionary[task],
                                                task_answer_dictionary[task],
                                                dialogs,
@@ -81,15 +81,31 @@ def create_HIT(hit_description, hit_id, mturk, path_instructions, dialogs, task,
             if not check in ['Y', 'y', 'Yes', 'yes']:
                 exit()
 
-        response = mturk.create_hit(
-            Question=question_html_value,
-            MaxAssignments=hit_description['MaxAssignments'],
-            Title=hit_description['Title'],
-            Description=hit_description['Description'],
-            Keywords=hit_description['Keywords'],
-            AssignmentDurationInSeconds=hit_description['AssignmentDurationInSeconds'],
-            LifetimeInSeconds=hit_description['LifetimeInSeconds'],
-            Reward=f"{hit_description['Reward'] * len(dialogs)}")
+        if qualification:
+            response = mturk.create_hit(
+                Question=question_html_value,
+                MaxAssignments=hit_description['MaxAssignments'],
+                Title=hit_description['Title'],
+                Description=hit_description['Description'],
+                Keywords=hit_description['Keywords'],
+                AssignmentDurationInSeconds=hit_description['AssignmentDurationInSeconds'],
+                LifetimeInSeconds=hit_description['LifetimeInSeconds'],
+                Reward=f"{hit_description['Reward'] * len(dialogs)}",
+                QualificationRequirements=[{'QualificationTypeId':"3TYM2RQLI3DD9VFPRP5NMOCSI6AL9O",
+                                          'Comparator':"EqualTo",
+                                          'IntegerValues':[1],
+                                          'RequiredToPreview': True}]
+                )
+        else:
+            response = mturk.create_hit(
+                Question=question_html_value,
+                MaxAssignments=hit_description['MaxAssignments'],
+                Title=hit_description['Title'],
+                Description=hit_description['Description'],
+                Keywords=hit_description['Keywords'],
+                AssignmentDurationInSeconds=hit_description['AssignmentDurationInSeconds'],
+                LifetimeInSeconds=hit_description['LifetimeInSeconds'],
+                Reward=f"{hit_description['Reward'] * len(dialogs)}")
 
     except Exception as e:
         import pdb; pdb.set_trace()
@@ -123,6 +139,8 @@ if __name__ == '__main__':
     parser.add_argument('--description', type=str, default='Annotation of conversations')
     parser.add_argument('--max_assignments', type=int, default=1)
     parser.add_argument('--title', type=str, default='JSALT 2020 : Annotation of conversation.')
+    parser.add_argument('--qualification', action="store_true", default=False)
+    parser.add_argument('--hit_file', type=str, default='hits.txt')
     args = parser.parse_args()
 
     # Create your connection to MTurk
@@ -152,10 +170,10 @@ if __name__ == '__main__':
 
     hit_ids = []
     for i in range(0, len(segments), args.n):
-        hit_id = create_HIT(hit_description, args.name, mturk, task_instruction[args.task], segments[i:min(i+args.n, len(segments))], args.task, sandbox=args.sandbox)
+        hit_id = create_HIT(hit_description, args.name, mturk, task_instruction[args.task], segments[i:min(i + args.n +1, len(segments))], args.task, sandbox=args.sandbox, qualification=args.qualification)
         hit_ids.append(hit_id)
 
 
-    with open('hits.txt', 'w') as f_out:
+    with open(args.hit_file, 'w') as f_out:
         for hit_id in hit_ids:
             f_out.write('%s\n' % (hit_id))
