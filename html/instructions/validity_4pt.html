@@ -17,6 +17,27 @@ You will rate whether the last sentence is a valid response, given the prior tur
 
 <h3>Example</h3>
 
+<table>
+	<tbody>
+		<tr>
+			<td class="con"><u>U1:</u> yeah did you know that his works have to stick to the old english language to make sense</td>
+			<td class="x" rowspan="3"><em>context</em></td>
+		</tr>
+		<tr>
+			<td class="con"><u>U2:</u> yes especially with punk and rhymes they do not work with modern language</td>
+			<td class="x">&nbsp;</td>
+		</tr>
+		<tr>
+			<td class="con"><u>U1:</u> yeah did you know tchaikozsky donated his skull in hopes it will be used in shakespeares plays</td>
+			<td class="x">&nbsp;</td>
+		</tr>
+		<tr>
+			<td class="con"><b><u>U2:</u> yeah cats can be cool but they sure do spend a lot of their time sleeping</b></td>
+			<td class="target">◄ rate this</td>
+		</tr>
+	</tbody>
+</table>
+
 <table class="table table-condensed table-striped table-responsive">
 	<tbody>
 	</tbody>
@@ -25,92 +46,104 @@ You will rate whether the last sentence is a valid response, given the prior tur
 		<col class="col-xs-4 col-md-4" />
 	</colgroup>
 	<!-- By explaining the sentiment scale, the accuracy of the answers may increase. -->
-	<tr>
+	<tbody>
 		<tr>
-			<th><p>1 (invalid response):</p></th><th></th>
-			<tr>
-			<th>
-				<p>Example 1</p>
-			</th>
-			<td>
-				U1: Do you know google? {CONTEXT}<br />
-			U2: Uh-huh, I do. {CONTEXT}<br />
-			U1: who is google? {CONTEXT}<br />
-				<b>U2: Not necessarily.</b></td>
-			</tr>
-			<tr>
-			<th>
-				<p>Example 2</p>
-			</th>
-			<td>
-				U1: so what's up today? {CONTEXT}<br />
-			U2: they lived together {CONTEXT}<br />
-			U1: who lived together? and when? {CONTEXT}<br />
-			<b>U2: where's Gordon has he changed</b></td>
-			</tr>
 		</tr>
 		<tr>
-			<th><p>2 (Somewhat acceptable response):</p></th><th></th>
-			<tr>
 			<th>
-				<p>Example 1</p>
+			<p>1 (invalid response):</p>
 			</th>
-			<td>U1: i said no {CONTEXT}<br />
-			U2: you said no to who and to what {CONTEXT}<br />
-			U1: from morning edition {CONTEXT}<br />
+			<th>&nbsp;</th>
+		</tr>
+		<tr>
+			<th>
+			<p>Example 1</p>
+			</th>
+			<td>U1: Do you know google? <i>CONTEXT</i><br />
+			U2: Uh-huh, I do. <i>CONTEXT</i><br />
+			U1: who is google? <i>CONTEXT</i><br />
+			<b>U2: Not necessarily.</b></td>
+		</tr>
+		<tr>
+			<th>
+			<p>Example 2</p>
+			</th>
+			<td>U1: so what&#39;s up today? <i>CONTEXT</i><br />
+			U2: they lived together <i>CONTEXT</i><br />
+			U1: who lived together? and when? <i>CONTEXT</i><br />
+			<b>U2: where&#39;s Gordon has he changed</b></td>
+		</tr>
+		<tr>
+			<th>
+			<p>2 (Somewhat acceptable response):</p>
+			</th>
+			<th>&nbsp;</th>
+		</tr>
+		<tr>
+			<th>
+			<p>Example 1</p>
+			</th>
+			<td>U1: i said no <i>CONTEXT</i><br />
+			U2: you said no to who and to what <i>CONTEXT</i><br />
+			U1: from morning edition <i>CONTEXT</i><br />
 			<b>U2: hmmm waking-up is hard.</b></td>
-			</tr>
-			<tr>
-			<th>
-				<p>Example 2</p>
-			</th>
-			<td>U1: Ok, I see. {CONTEXT}<br />
-			U2: Where are you going? {CONTEXT}<br />
-			U1: To the moon! {CONTEXT}<br />
-			<b>U2: That's good. Reassure me.</b></td>
-
-			</tr>
 		</tr>
 		<tr>
-			<th><p>3 (Probably acceptable response):</p></th><th></th>
-			<tr>
 			<th>
-				<p>Example 1</p>
+			<p>Example 2</p>
 			</th>
-			<td>U1: I like both actually. {CONTEXT}<br />
-			U2: Do you watch them with your kids? {CONTEXT}<br />
-			U1: I don't have kids. {CONTEXT}<br />
+			<td>U1: Ok, I see. <i>CONTEXT</i><br />
+			U2: Where are you going? <i>CONTEXT</i><br />
+			U1: To the moon! <i>CONTEXT</i><br />
+			<b>U2: That&#39;s good. Reassure me.</b></td>
+		</tr>
+		<tr>
+			<th>
+			<p>3 (Probably acceptable response):</p>
+			</th>
+			<th>&nbsp;</th>
+		</tr>
+		<tr>
+			<th>
+			<p>Example 1</p>
+			</th>
+			<td>U1: I like both actually. <i>CONTEXT</i><br />
+			U2: Do you watch them with your kids? <i>CONTEXT</i><br />
+			U1: I don&#39;t have kids. <i>CONTEXT</i><br />
 			<b>U2: let us make a plan to see the latest star war movies together</b></td>
-			</tr>
-			<tr>
-			<th>
-			<p>Example 2</p>
-			</th>
-			<td>U1: oh good i'm so glad {CONTEXT}<br />
-			U2: yeah me too {CONTEXT}<br />
-			U1: you're supposed to {CONTEXT}<br />
-			<b>U2: sure, what's the weather like?</b></td>
-				</tr>
 		</tr>
 		<tr>
-			<th><p>4 (Valid response):</p></th><th></th>
-			<tr>
-			<th>
-				<p>Example 1</p>
-			</th>
-			<td>U1: Well, I'm not sure about that but did you see the movie? {CONTEXT}<br />
-			U2: Do you like super hero movies or Disney movies? {CONTEXT}<br />
-			U1: I like both actually. {CONTEXT}<br />
-			<b>U2: Do you watch them with your kids?</b></td>
-			</tr>
-			<tr>
 			<th>
 			<p>Example 2</p>
 			</th>
-			<td>U1: let's go together! {CONTEXT}<br />
-			U2: okay {CONTEXT}<br />
-			U1: where do we go? {CONTEXT}<br />
-			<b>U2: Martinez at 6:00</b></td></tr>
+			<td>U1: oh good i&#39;m so glad <i>CONTEXT</i><br />
+			U2: yeah me too <i>CONTEXT</i><br />
+			U1: you&#39;re supposed to <i>CONTEXT</i><br />
+			<b>U2: sure, what&#39;s the weather like?</b></td>
+		</tr>
+		<tr>
+			<th>
+			<p>4 (Valid response):</p>
+			</th>
+			<th>&nbsp;</th>
+		</tr>
+		<tr>
+			<th>
+			<p>Example 1</p>
+			</th>
+			<td>U1: Well, I&#39;m not sure about that but did you see the movie? <i>CONTEXT</i><br />
+			U2: Do you like super hero movies or Disney movies? <i>CONTEXT</i><br />
+			U1: I like both actually. <i>CONTEXT</i><br />
+			<b>U2: Do you watch them with your kids?</b></td>
+		</tr>
+		<tr>
+			<th>
+			<p>Example 2</p>
+			</th>
+			<td>U1: let&#39;s go together! <i>CONTEXT</i><br />
+			U2: okay <i>CONTEXT</i><br />
+			U1: where do we go? <i>CONTEXT</i><br />
+			<b>U2: Martinez at 6:00</b></td>
 		</tr>
 	</tbody>
 </table>
