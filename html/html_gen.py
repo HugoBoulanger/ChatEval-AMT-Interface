@@ -200,8 +200,8 @@ def generate_html_filled(path_instructions, generated_questions, dialogs):
     <!-- This is where you define your question(s) --> 
     """
 
-    html += '<p>If you are a JSALT participant, please enter your name.</p>\n'
-    html += '<p><textarea cols="80" name="participant" rows="3">Not a participant</textarea></p>\n'
+    html += '<p><h3>If you are a JSALT participant, please enter your name.</h3></p>\n'
+    html += '<p><textarea cols="50" name="participant" rows="1"  required></textarea></p>\n'
 
     for i in range(1, len(dialogs)+1):
         html += f'<input id="NUMBER_{i}" name="NUMBER_{i}" type="hidden" value="{dialogs[i-1][0]}" />\n'
