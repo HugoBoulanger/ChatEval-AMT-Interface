@@ -1,0 +1,125 @@
+UID,SID,SEG
+MPATHY-000001-0000,Speaker,"I remember going to see the fireworks with my best friend. It was the first time we ever spent time alone together. Although there was a lot of people, we felt like the only people in the world."
+MPATHY-000001-0001,Listener,"Was this a friend you were in love with, or just a best friend?"
+MPATHY-000001-0002,Speaker,This was a best friend. I miss her.
+MPATHY-000001-0003,Listener,Where has she gone?
+MPATHY-000001-0004,Speaker,We no longer talk.
+MPATHY-000001-0005,Listener,Oh was this something that happened because of an argument?
+MPATHY-000002-0000,Speaker, it feels like hitting to blank wall when i see the darkness
+MPATHY-000002-0001,Listener,Oh ya? I don't really see how
+MPATHY-000002-0002,Speaker,dont you feel so.. its a wonder 
+MPATHY-000002-0003,Listener,I do actually hit blank walls a lot of times but i get by
+MPATHY-000002-0004,Speaker, i virtually thought so.. and i used to get sweatings
+MPATHY-000002-0005,Listener,Wait what are sweatings
+MPATHY-000003-0000,Speaker,Hi how are you doing today
+MPATHY-000003-0001,Listener,doing good.. how about you
+MPATHY-000003-0002,Speaker,"Im good, trying to understand how someone can feel like hitting a blank wall when they see the darkness"
+MPATHY-000003-0003,Listener,it's quite strange that you didnt imagine it
+MPATHY-000003-0004,Speaker,"i dont imagine feeling a lot, maybe your on to something"
+MPATHY-000004-0000,Listener,I have never cheated on my wife.
+MPATHY-000004-0001,Speaker,"And thats something you should never do, good on you. "
+MPATHY-000004-0002,Listener,Yea it hasn't been easy but I am proud I haven't
+MPATHY-000004-0003,Speaker,What do you mean it hasn't been easy? How close have you come to cheating? 
+MPATHY-000005-0000,Listener,"Job interviews always make me sweat bullets, makes me uncomfortable in general to be looked at under a microscope like that. "
+MPATHY-000005-0001,Speaker,Don't be nervous. Just be prepared.
+MPATHY-000005-0002,Listener,I feel like getting prepared and then having a curve ball thrown at you throws you off. 
+MPATHY-000005-0003,Speaker,Yes but if you stay calm it will be ok.
+MPATHY-000005-0004,Listener,It's hard to stay clam. How do you do it? 
+MPATHY-000007-0000,Speaker,"Hi, this year, I was the first over 300 students at my enginering school"
+MPATHY-000007-0001,Listener,Sounds great! So what's your major?
+MPATHY-000007-0002,Speaker,It is computer science. I am very happy of this achievement and my family is very proud.
+MPATHY-000007-0003,Listener,"Well pleased. You should be having brains,man!That's a tough course,i hear."
+MPATHY-000008-0000,Speaker,I lost my job last year and got really angry.
+MPATHY-000008-0001,Listener,I am sorry to hear that. Did it happen out of the blue?
+MPATHY-000008-0002,Speaker,"Yes, it was a complete surprise."
+MPATHY-000008-0003,Listener,I am sorry to hear that. I hope it turned out to be a blessing in decise.
+MPATHY-000010-0000,Speaker,"During christmas a few years ago, I did not get any presents."
+MPATHY-000010-0001,Listener,"Wow, that must be terrible, I cannot imagine, I lvoe christmas"
+MPATHY-000010-0002,Speaker,"Since that day christmas has not been a good time for me. As I have no family, christmas is always the worst."
+MPATHY-000010-0003,Listener,"Wow, I am sorry to hear that, I wish I could make it a better holiday for you!"
+MPATHY-000010-0004,Speaker,Some days are just days that you never forget. I wish you could as well.
+MPATHY-000011-0000,Listener,"My coworker is allowed to work remotely, but I am not..."
+MPATHY-000011-0001,Speaker,"I work remotely, I wish that you could do something like that as well."
+MPATHY-000011-0002,Listener,"I do too, it is unfortnuate because, unbiased, I am our best performer, so it is curious"
+MPATHY-000011-0003,Speaker,"Sometimes in life, it is not about performance. Some people just get a shiner spoon."
+MPATHY-000013-0000,Listener,The other night I was alone and heard a nose coming from the kitchen... it was creepy. 
+MPATHY-000014-0000,Speaker,"Hi, I went to a park and I set on a bench. I didn't notice that my wallet felt. A man came to me from behind giving me back my wallet."
+MPATHY-000014-0001,Listener,"Thats a sweet man, I hope you acknowledged his kind gesture. "
+MPATHY-000014-0002,Speaker,"Yes, I did. I was so grateful because I have a lot of money in my wallet."
+MPATHY-000014-0003,Listener,Their aren't that many well rounded people in the world these days so when you see one you should always show appreciation! 
+MPATHY-000015-0000,Speaker,People get rejected all the time but it shouldn't be an excuse to let it dissuade you from reaching your goals.
+MPATHY-000015-0001,Listener,What happened?
+MPATHY-000015-0002,Speaker,"Got rejected from a place I wanted to work, not once but three times "
+MPATHY-000015-0003,Listener,I am sorry to hear that. I hope you find a better opportunity. Did you know why they rejected you?
+MPATHY-000015-0004,Speaker,"Thanks, they gave me the same generic lines you always hear. "
+MPATHY-000016-0000,Listener,I had to board my entire house when the hurricane was coming.
+MPATHY-000016-0001,Speaker,WOW! Did it do any damage?
+MPATHY-000016-0002,Listener,No luckily the house was ok.
+MPATHY-000016-0003,Speaker,That is great. I would have been scared to death. Was it recent?
+MPATHY-000019-0000,Listener,"Once when I was in preschool, my pants fell down in front of the whole class, I was so embarassed"
+MPATHY-000019-0001,Speaker,haha yeah that would be very bad !
+MPATHY-000019-0002,Listener,"It was, I almost cried cause everyone was laughing at me"
+MPATHY-000019-0003,Speaker,"Oh no , sorry to hear that happened to you :("
+topical-000000-0,agent_1,are you a fan of google or microsoft ?
+topical-000000-1,agent_2,both are excellent technology they are helpful in many ways . for the security purpose both are super .
+topical-000000-2,agent_1,"i ' m not a huge fan of google , but i use it a lot because i have to . i think they are a monopoly in some sense ."
+topical-000000-3,agent_2,"google provides online related services and products , which includes online ads , search engine and cloud computing ."
+topical-000000-4,agent_1,"yeah , their services are good . i ' m just not a fan of intrusive they can be on our personal lives ."
+topical-000000-5,agent_2,google is leading the alphabet subsidiary and will continue to be the umbrella company for alphabet internet interest .
+topical-000000-6,agent_1,did you know google had hundreds of live goats to cut the grass in the past ?
+topical-000000-7,agent_2,"it is very interesting . google provide "" chrome os "" which is a light weight os . google provided a lot of hardware mainly in 2010 to 2015 ."
+topical-000000-8,agent_1,i like google chrome . do you use it as well for your browser ?
+topical-000000-9,agent_2,"yes . google is the biggest search engine and google service figure out top 100 website , including youtube and blogger ."
+topical-000000-10,agent_1,"by the way , do you like fish ?"
+topical-000000-11,agent_2,yes . they form a sister group of tourniquets - they make the sea water clean and remove the dust from it . fish is the biggest part in the eco - system .
+topical-000000-12,agent_1,did you know that a seahorse is the only fish to have a neck ?
+topical-000000-13,agent_2,"freshwater fish only drink water through the skin via osmosis , saltwater fish drink water through the mouth . dolphins are friendly to human beings ."
+topical-000000-14,agent_1,"interesting , they also have gills . did you know that jellyfish are immortal ?"
+topical-000000-15,agent_2,yes . fish is the important resources of human world wide for the commercial and subsistence fish hunts the fish in the wild fisheries .
+topical-000000-16,agent_1,"what about cats , do you like cats ? i ' m a dog fan myself ."
+topical-000000-17,agent_2,the cat is referred as domestic cat and wild cat . they make our world very clean from rats !
+topical-000000-18,agent_1,"yeah , cats can be cool , but they sure do spend a lot of their time sleeping ."
+topical-000000-19,agent_2,cats hear the sounds too faint or too high frequency human ears can hear .
+topical-000000-20,agent_1,"i heard that too . well , it was nice chatting with you . have a good day ."
+topical-000001-0,agent_1,do you like dance ?
+topical-000001-1,agent_2,yes i do . did you know bruce lee was a cha cha dancer ?
+topical-000001-2,agent_1,yes he even won a hardcore cha cha championship in 1958
+topical-000001-3,agent_2,yeah . did you know tupac was a ballet dancer ?
+topical-000001-4,agent_1,yes and he even was in the production of the nutcracker
+topical-000001-5,agent_2,yeah . ballet dancer go through 4 pairs of shoes a week
+topical-000001-6,agent_1,yes that is a lot of shoes and also a lot of money
+topical-000001-7,agent_2,yeah true . did you know babies are really good at dancing ?
+topical-000001-8,agent_1,yes and they smile more when they hit the beat
+topical-000001-9,agent_2,yeah they are much smarter than we give them credit for
+topical-000001-10,agent_1,true did you know jackson had a patent on a dancing device ?
+topical-000001-11,agent_2,yes it helped him smooth out his dance moves
+topical-000001-12,agent_1,nice . do you like shakespeare ?
+topical-000001-13,agent_2,yes i do . do you know that he popularized many phrases
+topical-000001-14,agent_1,"yes like good riddance , in my heart of hearts and such"
+topical-000001-15,agent_2,"yes and then he also invented names like jessica , olivia and miranda"
+topical-000001-16,agent_1,yes . and for his works you have to use old english for it to make sense
+topical-000001-17,agent_2,yes otherwise the rhymes and puns do not seem to work out
+topical-000001-18,agent_1,yes . he lived at the same time as pocahontas too
+topical-000001-19,agent_2,i wonder if they met how that would go from there
+topical-000001-20,agent_1,yeah interesting point . nice chat
+topical-000002-0,agent_1,hey what ' s up do use google very often ? i really love the company and was surprised to hear that it was founded back in 1998 .
+topical-000002-1,agent_2,i think everyone must use it daily ! its become ingrained in every day life
+topical-000002-2,agent_1,agreed . the google headquarters in mountain view california is nicknamed the google plex .
+topical-000002-3,agent_2,"thats funny . the current ceo is sundar pichai , i didnt know larry page was replaced"
+topical-000002-4,agent_1,oh yeah i didn ' t know that either . i also want to go to google plex to see the goats who mow their lawn by eating it .
+topical-000002-5,agent_2,say what now ? ? they have that ? ?
+topical-000002-6,agent_1,yeah apparently lol ! they do that instead of hiring people to mow !
+topical-000002-7,agent_2,thats both funny and i guess imaginative . leave it to a huge tech company to employ actual goats !
+topical-000002-8,agent_1,yeah exactly i am sure they are cheaper . one thing i bet they couldn ' t exploit is fish . i think fish are so cool there is actually a breed of jellyfish that is immortal .
+topical-000002-9,agent_2,i had rememered hearing about that before . immortatlity is wasted on a jellyfish haha . did you know a seahorse is the only fish that has an actual neck ?
+topical-000002-10,agent_1,that is so funny i guess i never considered a seahorse a fish . the black swallower fish sounds a lot like a snake because it can eat pray that is so large .
+topical-000002-11,agent_2,i guess they live up to their name then !
+topical-000002-12,agent_1,it seems they do . i also didn ' t know that there was a difference with how freshwater and saltwater fish drink .
+topical-000002-13,agent_2,thats crazy . i wonder why fresh water ones only use osmosis ?
+topical-000002-14,agent_1,yeah and saltwater fish are lucky because they can do that and drink through their mouth ' s .
+topical-000002-15,agent_2,seems like fresh water fish got the short end of the stick with that one . have you ever been to a cat cafe ?
+topical-000002-16,agent_1,"i have never been to a cat cafe no , what about you ? seems like they are popular in japan and taiwan ."
+topical-000002-17,agent_2,no but i would love to ! paying hourly to hang out with adorable cats ? im in !
+topical-000002-18,agent_1,yeah that would be a lot of fun . i didn ' t realize that cats sleep so much . must be nice .
+topical-000002-19,agent_2,"i guess thats where the phrase "" cat nap "" comes from"
+topical-000002-20,agent_1,oh yeah i guess so ha ha . there ' s even a town in alaska that has a mayor cat .
