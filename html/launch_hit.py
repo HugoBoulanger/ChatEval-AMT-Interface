@@ -60,11 +60,13 @@ def add_attention_checks(segments, n):
 
 
 def create_HIT(hit_description, hit_id, mturk, path_instructions, dialogs, task, sandbox=False, qualification=False):
-    question_html_value = generate_html_filled(path_instructions, generate_n_questions_filled('Read to last sentence.',
-                                               task_question_dictionary[task],
-                                               task_answer_dictionary[task],
-                                               dialogs,
-                                               task_warning_dictionary[task]),
+    question_html_value = generate_html_filled(path_instructions, 
+                                               generate_n_questions_filled(
+                                                   '<u>Read</u> the context sentences then <u>rate</u> the last sentence.',
+                                                   task_question_dictionary[task],
+                                                   task_answer_dictionary[task],
+                                                   dialogs,
+                                                   task_warning_dictionary[task]),
                                                 dialogs)
 
     question_html_value = question_html_value.encode('ascii', 'xmlcharrefreplace').decode()
