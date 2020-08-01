@@ -5,9 +5,15 @@ import numpy as np
 
 
 def read_csv(path, with_header=False):
-    with open(path, newline='') as f:
+    with open(path, newline='', encoding='utf8') as f:
         reader = csv.reader(f)
-        rows = [row for row in reader]
+        # rows = [row for row in reader]
+        rows = []
+        try:
+            for r in reader:
+                rows.append(r)
+        except UnicodeDecodeError as err:
+            print(f'{err}\n last row = {rows[-1]}')
     if with_header:
         rows = rows[1:]
     return rows
@@ -102,13 +108,45 @@ def format_validity(sce_path, dst_dir_path, nb_context_turn=4, nb_annot_per_hit=
     write_csv(dst_path, dst_rows)
 
 
+def sample_turns(sce_path, nb_turns, dst_dir_path):
+    sce_rows = read_csv(sce_path, with_header=False)
+
+    dst_rows = [sce_rows[0]]
+    d_uid = '-'.join(sce_rows[0][0].split('-')[:2])
+    nb_conv = 0
+    for r in sce_rows[1:]:
+        d_uid_current = '-'.join(r[0].split('-')[:2])
+        if d_uid == d_uid_current:
+            dst_rows.append(r)
+        else:
+            if len(dst_rows) >= nb_turns:
+                break
+            dst_rows.append(r)
+            d_uid = d_uid_current
+            nb_conv += 1
+
+    dst_path = os.path.join(dst_dir_path,
+                            os.path.basename(sce_path).replace('.csv',
+                                                               f'_sample_{len(dst_rows)-1}_turns_{nb_conv}_conv.csv'))
+    write_csv(dst_path, dst_rows)
+
+
 if __name__ == '__main__':
     random.seed(1)
 
-    dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data')
+    # dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'data')
+    #
+    # sce = os.path.join(dir, 'topical_sample.csv')
+    # format_validity(sce, dir, nb_context_turn=4, nb_annot_per_hit=10, attention_check='random_turns')
+    #
+    # sce = os.path.join(dir, 'empathy_sample.csv')
+    # format_validity(sce, dir, nb_context_turn=4, nb_annot_per_hit=10, attention_check='random_turns')
 
-    sce = os.path.join(dir, 'topical_sample.csv')
-    format_validity(sce, dir, nb_context_turn=4, nb_annot_per_hit=10, attention_check='random_turns')
+    dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))),
+                       'data')
 
-    sce = os.path.join(dir, 'empathy_sample.csv')
-    format_validity(sce, dir, nb_context_turn=4, nb_annot_per_hit=10, attention_check='random_turns')
+    sce = os.path.join(dir, 'topical_main.csv')
+    sample_turns(sce, 60, dir)
+
+    sce = os.path.join(dir, 'MPATHY_main.csv')
+    sample_turns(sce, 60, dir)
