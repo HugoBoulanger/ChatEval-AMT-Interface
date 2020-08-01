@@ -8,8 +8,8 @@ task_question_dictionary = {'breakdown': 'Select one of the breakdown labels. (r
                             'validity_4pt': "Does the final occurance make sense? (required)"}
 task_warning_dictionary = {
     'breakdown': 'The result may not be approved if it is considered as cheating by checking utterances which consist of Obviously BREAKDOWN and NOT A BREAKDOWN utterances. ',
-    "validity_3pt": 'This HIT may not be approved if you do a rating without considering all four sentences in the set, say by rating a sentence that is obvious valid as invalid, etc. If you appear to be doing this, your HIT will be officially rejected. Please be careful.',
-    "validity_4pt": 'This HIT may not be approved if you do a rating without considering all four sentences in the set, say by rating a sentence that is obvious valid as invalid, etc. If you appear to be doing this, your HIT will be officially rejected. Please be careful.'}
+    "validity_3pt": 'This HIT may not be approved if you make a rating without considering all sentences in the set. For example by rating an obviously valid sentence as invalid, etc. If you appear to be doing this, your HIT will be officially rejected. Please be careful.',
+    "validity_4pt": 'This HIT may not be approved if you make a rating without considering all sentences in the set. For example by rating an obviously valid sentence as invalid, etc. If you appear to be doing this, your HIT will be officially rejected. Please be careful.'}
 task_window_dictionary = {'breakdown': None,
                           'validity_3pt': 4,
                           'validity_4pt': 4}
