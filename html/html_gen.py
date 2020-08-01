@@ -36,10 +36,10 @@ def generate_dialogue(n, window):
     dialogue = f'<p class="well" id="dialog_{n}">U1' +': ${DIALOG_' + f'{n}_{1}' +'}<br />'
 
     for i in range(2, window + 1):
-        if i % 2 == 0:
-            dialogue += '\nU2: ${DIALOG_' + f'{n}_{i}' + '}<br />'
+        if i % 2 == 1:
+            dialogue += f'\n{"<b>" if i == len(dialog)-1 else ""}U2: {dialog[i]}{"</b>" if i == len(dialog)-1 else ""}<br />'
         else:
-            dialogue += '\nU1: ${DIALOG_' + f'{n}_{i}' + '}<br />'
+            dialogue += f'\n{"<b>" if i == len(dialog)-1 else ""}U1: {dialog[i]}{"</b>" if i == len(dialog)-1 else ""}<br />'
 
     dialogue = dialogue[:-5] + '/p>\n'
 
@@ -52,16 +52,21 @@ def generate_dialogue_filled(dialog):
     :param dialog: list of turns ending by the turn to annotate
     :return: str of html formatted dialog
     """
-    dialogue = f'<p class="well">U1: {dialog[0]} <br />'
+    dialogue = "<table>\n<tbody>\n"
+
+    dialogue += f'''        <tr>
+			<td class="con"><u>U1:</u> {dialog[0]}</td>
+			<td class="x" rowspan="3"><em>context</em></td>
+		</tr>
+    '''
 
     for i in range(1, len(dialog)):
-        if i % 2 == 1:
-            dialogue += f'\n{"<b>" if i == len(dialog)-1 else ""}U2: {dialog[i]}{"</b>" if i == len(dialog)-1 else ""}<br />'
-        else:
-            dialogue += f'\n{"<b>" if i == len(dialog)-1 else ""}U1: {dialog[i]}{"</b>" if i == len(dialog)-1 else ""}<br />'
+        dialogue += f'''        <tr>
+			<td class="con"><u>{"U2" if i % 2 == 1 else "U1"}:</u> {dialog[i]}</td>
+			{'<td class="target">◄ rate this</td>' if i == len(dialog)-1 else '<td class="x">&nbsp;</td>'}
+		</tr>'''
 
-    dialogue = dialogue[:-5] + '/p>\n'
-
+    dialogue += "</tbody>\n</table>\n"
     return dialogue
 
 def generate_question(instruction, question, answer, name, dialogue):
@@ -184,12 +189,38 @@ def generate_html_filled(path_instructions, generated_questions, dialogs):
         <!DOCTYPE html>
         <html>
         <!-- Bootstrap v3.0.3 -->
+        <head>
+        <style type="text/css">table {
+  font-family: arial, sans-serif;
+  width: 100%;
+  border-collapse: collapse;
+}
+td, th {
+  border: 1px solid #FEFEFE;
+  text-align: left;
+}
+.con{
+  padding: 8px;
+  width: 70%;
+}
+.x {
+  border: #EEEEEE;
+  border-left-style: solid;
+  padding: 8px;
+  width: 30%;
+  }
+.target {
+  padding: 8px;
+  width: 30%;
+  }
+</style>
         <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
         <script src='https://s3.amazonaws.com/mturk-public/externalHIT_v1.js' type='text/javascript'></script>
         """
 
     html += """<!-- HIT template: Survey-v3.0 --><!-- The following snippet enables the 'responsive' behavior on smaller screens -->
         <meta content="width=device-width,initial-scale=1" name="viewport" />
+        </head>
         <section class="container" id="Survey"><!-- Instructions -->
         """
 
