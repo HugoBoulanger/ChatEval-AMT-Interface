@@ -1,6 +1,6 @@
 import os, sys
 import argparse
-
+from task_dictionaries import *
 
 def generate_dialogue_old(n, window=None):
     """
@@ -33,13 +33,32 @@ def generate_dialogue(n, window):
     :param window: number of turns in the dialogue
     :return:
     """
-    dialogue = f'<p class="well">U1' +': ${DIALOG_' + f'{n}_{1}' +'}<br />'
+    dialogue = f'<p class="well" id="dialog_{n}">U1' +': ${DIALOG_' + f'{n}_{1}' +'}<br />'
 
     for i in range(2, window + 1):
         if i % 2 == 0:
             dialogue += '\nU2: ${DIALOG_' + f'{n}_{i}' + '}<br />'
         else:
             dialogue += '\nU1: ${DIALOG_' + f'{n}_{i}' + '}<br />'
+
+    dialogue = dialogue[:-5] + '/p>\n'
+
+    return dialogue
+
+
+def generate_dialogue_filled(dialog):
+    """
+    Generates a dialog filled for python launched script
+    :param dialog: list of turns ending by the turn to annotate
+    :return: str of html formatted dialog
+    """
+    dialogue = f'<p class="well">U1: {dialog[0]} <br />'
+
+    for i in range(1, len(dialog)):
+        if i % 2 == 1:
+            dialogue += f'\n{"<b>" if i == len(dialog)-1 else ""}U2: {dialog[i]}{"</b>" if i == len(dialog)-1 else ""}<br />'
+        else:
+            dialogue += f'\n{"<b>" if i == len(dialog)-1 else ""}U1: {dialog[i]}{"</b>" if i == len(dialog)-1 else ""}<br />'
 
     dialogue = dialogue[:-5] + '/p>\n'
 
@@ -57,18 +76,17 @@ S: ${TURN_3}</p>)
     :param name: str containing the number of the turn to be annotated (example : "_02" )
     :return: the html div containing the question/answer block
     """
-    question_html = '<div class="panel panel-default">\n'
+    question_html = f'<div class="panel panel-default" id="{name}">\n'
     question_html += f'<div class="panel-body"><label>{instruction}</label>\n'
     question_html += '\n' + dialogue
     question_html += question
 
     for a in answer:
-        question_html += '\n' + f'<div class="radio"><label><input name="{name}" required="true" type="radio" value="{a[1]}" />{a[0]} </label></div>\n'
+        question_html += '\n' + f'<div class="radio" id="{name}"><label><input name="{name}" required="true" type="radio" value="{a[1]}" />{a[0]} </label></div>\n'
 
     question_html += '</div>\n</div>\n'
 
     return question_html
-
 
 def generate_n_question_old(instruction, question, answer, n, warning, window=None, user="both"):
     """
@@ -118,7 +136,19 @@ def generate_n_question(instruction, question, answer, n, warning, window, user=
     questions_html += f'<p style="margin-bottom: 15px; font-size: 16px; line-height: 1.72222; color: rgb(52, 73, 94); font-family: Lato, Helvetica, Arial, sans-serif;"><span style="color: rgb(209, 72, 65);">{warning} </span></p>\n'
 
     for i in range(1, n+1):
-        q = generate_question(instruction, question, answer, f"_{i:02d}", generate_dialogue(i, window=window))
+        q = generate_question(instruction, question, answer, f"ANSWER_{i}", generate_dialogue(i, window=window))
+        questions_html += q
+
+    questions_html += '</div>\n</div>\n'
+
+    return questions_html
+
+def generate_n_questions_filled(instruction, question, answer, dialogs, warning):
+    questions_html = '<div class="row" id="workContent" name="Bot001_044">\n<div class="col-sm-8 col-sm-offset-2">\n'
+    questions_html += f'<p style="margin-bottom: 15px; font-size: 16px; line-height: 1.72222; color: rgb(52, 73, 94); font-family: Lato, Helvetica, Arial, sans-serif;"><span style="color: rgb(209, 72, 65);">{warning} </span></p>\n'
+
+    for i in range(1, len(dialogs) + 1):
+        q = generate_question(instruction, question, answer, f"ANSWER_{i}", generate_dialogue_filled(dialogs[i-1][1]))
         questions_html += q
 
     questions_html += '</div>\n</div>\n'
@@ -136,9 +166,9 @@ def generate_instructions(path_instructions):
     inst = f.read()
     f.close()
 
-    inst_html = '<div class="row">\n'
-    inst_html += '<div class="col-xs-12 col-md-12">\n'
-    inst_html += '<div class="panel panel-primary"><!-- WARNING: the ids "collapseTrigger" and "instructionBody" are being used to enable expand/collapse feature --><a class="panel-heading" href="javascript:void(0);" id="collapseTrigger"><strong>Instructions</strong> <span class="collapse-text">(Click to Collapse)</span> </a>\n'
+    inst_html = '<div class="col-xs-12 col-md-12">\n'
+    inst_html += '<div class="panel panel-primary">\n'
+    inst_html += '<div class="panel-heading"><strong>Instructions</strong></div>\n'
     inst_html += '<div class="panel-body" id="instructionBody">\n'
 
     inst_html += inst + '\n'
@@ -147,6 +177,65 @@ def generate_instructions(path_instructions):
 
     return inst_html
 
+def generate_html_filled(path_instructions, generated_questions, dialogs):
+    html = """
+        <HTMLQuestion xmlns="http://mechanicalturk.amazonaws.com/AWSMechanicalTurkDataSchemas/2011-11-11/HTMLQuestion.xsd">
+        <HTMLContent><![CDATA[
+        <!DOCTYPE html>
+        <html>
+        <!-- Bootstrap v3.0.3 -->
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+        <script src='https://s3.amazonaws.com/mturk-public/externalHIT_v1.js' type='text/javascript'></script>
+        """
+
+    html += """<!-- HIT template: Survey-v3.0 --><!-- The following snippet enables the 'responsive' behavior on smaller screens -->
+        <meta content="width=device-width,initial-scale=1" name="viewport" />
+        <section class="container" id="Survey"><!-- Instructions -->
+        """
+
+    html += generate_instructions(path_instructions)
+    html += """
+    <form name='mturk_form' method='post' id='mturk_form' action='https://workersandbox.mturk.com/mturk/externalSubmit'>
+    <input type='hidden' value='' name='assignmentId' id='assignmentId'/>
+    <!-- This is where you define your question(s) --> 
+    """
+
+    html += '<p>If you are a JSALT participant, please enter your name.</p>\n'
+    html += '<p><textarea cols="80" name="participant" rows="3">Not a participant</textarea></p>\n'
+
+    for i in range(1, len(dialogs)+1):
+        html += f'<input id="NUMBER_{i}" name="NUMBER_{i}" type="hidden" value="{dialogs[i-1][0]}" />\n'
+    html += generated_questions
+
+    html += '<!-- End Survey Layout -->\n'
+    html += '<!-- Please note that Bootstrap CSS/JS and JQuery are 3rd party libraries that may update their url/code at any time. Amazon Mechanical Turk (MTurk) is including these libraries as a default option for you, but is not responsible for any changes to the external libraries --><!-- External CSS references -->\n'
+    html += '<link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" integrity="sha384-IS73LIqjtYesmURkDE9MXKbXqYA8rvKEp/ghicjem7Vc3mGRdQRptJSz60tvrB6+" rel="stylesheet" />\n'
+
+    """
+    f = open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'templates/stylesheet.html'), 'r')
+    style = f.read()
+    f.close()
+    html += style
+    """
+    html += '<!-- External JS references --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js" integrity="sha384-s1ITto93iSMDxlp/79qhWHi+LsIi9Gx6yL+cOKDuymvihkfol83TYbLbOw+W/wv4" crossorigin="anonymous"></script>\n'
+
+    """
+    f = open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'templates/scripts.html'), 'r')
+    scripts = f.read()
+    f.close()
+    html += scripts
+    """
+    html += '<p>Please provide any comments you may have below, we appreciate your input!</p>\n'
+    html += '<p><textarea cols="80" name="comment" rows="3">None?</textarea></p>\n'
+    html += "<p><input type='submit' id='submitButton' value='Submit' /></p></form></section>\n"
+    html += " <script language='Javascript'>turkSetAssignmentID();</script>\n"
+
+    html += '</html>'
+    html += """]]>
+        </HTMLContent>
+        <FrameHeight>600</FrameHeight>
+        </HTMLQuestion>"""
+    return html
 
 def generate_full_html(path_instructions, generated_questions):
     """
@@ -160,9 +249,11 @@ def generate_full_html(path_instructions, generated_questions):
     <HTMLContent><![CDATA[
     <!DOCTYPE html>
     <html>
-    <title></title>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" /><script type='text/javascript' src='https://s3.amazonaws.com/mturk-public/externalHIT_v1.js'></script>
-    <form action="https://www.mturk.com/mturk/externalSubmit" id="mturk_form" method="post" name="mturk_form"><input id="assignmentId" name="assignmentId" type="hidden" value="" /><!-- HIT template: Survey-v3.0 --><!-- The following snippet enables the 'responsive' behavior on smaller screens --></form>
+    <!-- Bootstrap v3.0.3 -->
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <input id="NUMBER_1" name="NUMBER_1" type="hidden" value="${NUMBER_1}" />
+    <input id="NUMBER_2" name="NUMBER_2" type="hidden" value="${NUMBER_2}" />
+    <input id="NUMBER_3" name="NUMBER_3" type="hidden" value="${NUMBER_3}" /><!-- HIT template: Survey-v3.0 --><!-- The following snippet enables the 'responsive' behavior on smaller screens -->
     <meta content="width=device-width,initial-scale=1" name="viewport" />
     <section class="container" id="Survey"><!-- Instructions -->
     """
@@ -174,20 +265,23 @@ def generate_full_html(path_instructions, generated_questions):
     html += '<!-- Please note that Bootstrap CSS/JS and JQuery are 3rd party libraries that may update their url/code at any time. Amazon Mechanical Turk (MTurk) is including these libraries as a default option for you, but is not responsible for any changes to the external libraries --><!-- External CSS references -->\n'
     html += '<link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" integrity="sha384-IS73LIqjtYesmURkDE9MXKbXqYA8rvKEp/ghicjem7Vc3mGRdQRptJSz60tvrB6+" rel="stylesheet" />\n'
 
+    """
     f = open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'templates/stylesheet.html'), 'r')
     style = f.read()
     f.close()
     html += style
-
+    """
     html += '<!-- External JS references --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js" integrity="sha384-s1ITto93iSMDxlp/79qhWHi+LsIi9Gx6yL+cOKDuymvihkfol83TYbLbOw+W/wv4" crossorigin="anonymous"></script>\n'
 
+    """
     f = open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'templates/scripts.html'), 'r')
     scripts = f.read()
     f.close()
     html += scripts
+    """
+    html += '<p>Please provide any comments you may have below, we appreciate your input!</p>\n'
+    html += '<p><textarea cols="80" name="comment" rows="3">None?</textarea></p>\n'
 
-    html += '<p class="text-center"><input class="btn btn-primary" id="submitButton" type="submit" value="Submit" /></p>\n'
-    html += '<script language="Javascript">turkSetAssignmentID();</script>\n'
     html += '</html>'
     html += """]]>
     </HTMLContent>
@@ -204,22 +298,6 @@ if __name__ == '__main__':
     parser.add_argument('-n', type=int, default=3, help="Max turn number (default 15).")
     parser.add_argument('--out_dir', type=str, default='./hits')
     args = parser.parse_args()
-
-    task_answer_dictionary = {'breakdown': [('BREAKDOWN', 0), ('POSSIBLE BREAKDOWN', 1), ('NOT A BREAKDOWN', 2)],
-                              'validity_3pt': [("Doesn't make sense in context", 1), ("Could make sense but not natural", 2), ("Makes sense in context", 3)],
-                              'validity_4pt': [("does not make sense at all", 1), ("might make sense, but strange given context", 2), ("makes sense in context but not very natural", 3), ("makes good sense in context.", 4)]}
-    task_question_dictionary = {'breakdown': 'Select one of the breakdown labels. (required)',
-                                'validity_3pt' : "Does the final occurance make sense? (required)",
-                                'validity_4pt' : "Does the final occurance make sense? (required)"}
-    task_warning_dictionary = {'breakdown': 'The result may not be approved if it is considered as cheating by checking utterances which consist of Obviously BREAKDOWN and NOT A BREAKDOWN utterances. ',
-                               "validity_3pt": 'The result may not be approved if it is considered as cheating by checking utterances which consist of utterances obviously making sense or not. ',
-                               "validity_4pt": 'The result may not be approved if it is considered as cheating by checking utterances which consist of utterances obviously making sense or not. '}
-    task_window_dictionary = {'breakdown': None,
-                              'validity_3pt': 4,
-                              'validity_4pt': 4}
-    task_user_dictionary = {'breakdown': 'user2',
-                            'validity_3pt': 'both',
-                            'validity_4pt': 'both'}
 
 
     if args.task not in task_answer_dictionary:
