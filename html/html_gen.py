@@ -56,7 +56,7 @@ def generate_dialogue_filled(dialog):
 
     dialogue += f'''        <tr>
 			<td class="con"><u>U1:</u> {dialog[0]}</td>
-			<td class="x" rowspan="3"><em>context</em></td>
+			<td class="x" rowspan="{len(dialog) - 1}"><em>context</em></td>
 		</tr>
     '''
 
@@ -231,8 +231,6 @@ td, th {
     <!-- This is where you define your question(s) --> 
     """
 
-    html += '<p><h3>If you are a JSALT participant, please enter your name.</h3></p>\n'
-    html += '<p><textarea cols="50" name="participant" rows="1"  required></textarea></p>\n'
 
     for i in range(1, len(dialogs)+1):
         html += f'<input id="NUMBER_{i}" name="NUMBER_{i}" type="hidden" value="{dialogs[i-1][0]}" />\n'
@@ -256,6 +254,8 @@ td, th {
     f.close()
     html += scripts
     """
+    html += '<p><h3>If you are a JSALT participant, please enter your name.</h3></p>\n'
+    html += '<p><textarea cols="50" name="participant" rows="3"  required></textarea></p>\n'
     html += '<p>Please provide any comments you may have below, we appreciate your input!</p>\n'
     html += '<p><textarea cols="80" name="comment" rows="3">None?</textarea></p>\n'
     html += "<p><input type='submit' id='submitButton' value='Submit' /></p></form></section>\n"

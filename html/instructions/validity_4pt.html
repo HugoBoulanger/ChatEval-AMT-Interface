@@ -15,135 +15,203 @@ You will rate whether the last sentence is a valid response, given the prior tur
 </ul>
 
 
-<h3>Example</h3>
+<h3>Examples</h3>
+
 
 <table>
+	<th>
+			<h4><b>1 (invalid response):</b></h4>
+	</th>
+	<th>&nbsp;</th>
 	<tbody>
+		<th>
+			<h5>Example 1</h5>
+		</th>
 		<tr>
-			<td class="con"><u>U1:</u> yeah did you know that his works have to stick to the old english language to make sense</td>
+			<td class="con"><u>U1:</u> Do you know google?</td>
 			<td class="x" rowspan="3"><em>context</em></td>
 		</tr>
 		<tr>
-			<td class="con"><u>U2:</u> yes especially with punk and rhymes they do not work with modern language</td>
+			<td class="con"><u>U2:</u> Uh-huh, I do.</td>
 			<td class="x">&nbsp;</td>
 		</tr>
 		<tr>
-			<td class="con"><u>U1:</u> yeah did you know tchaikozsky donated his skull in hopes it will be used in shakespeares plays</td>
+			<td class="con"><u>U1:</u> who is google?</td>
 			<td class="x">&nbsp;</td>
 		</tr>
 		<tr>
-			<td class="con"><b><u>U2:</u> yeah cats can be cool but they sure do spend a lot of their time sleeping</b></td>
+			<td class="con"><b><u>U2:</u> Not necessarily.</b></td>
+			<td class="target">◄ rate this</td>
+		</tr>
+	</tbody>
+	<tbody>
+		<th>
+			<h5>Example 2</h5>
+		</th>
+		<tr>
+			<td class="con"><u>U1:</u> so what&#39;s up today?</td>
+			<td class="x" rowspan="3"><em>context</em></td>
+		</tr>
+		<tr>
+			<td class="con"><u>U2:</u> they lived together</td>
+			<td class="x">&nbsp;</td>
+		</tr>
+		<tr>
+			<td class="con"><u>U1:</u> who lived together? and when?</td>
+			<td class="x">&nbsp;</td>
+		</tr>
+		<tr>
+			<td class="con"><b><u>U2:</u> where&#39;s Gordon has he changed</b></td>
 			<td class="target">◄ rate this</td>
 		</tr>
 	</tbody>
 </table>
 
-<table class="table table-condensed table-striped table-responsive">
+
+<table>
+	<th>
+			<h4><b>2 (Somewhat acceptable response):</b></h4>
+	</th>
+	<th>&nbsp;</th>
 	<tbody>
+		<th>
+			<h5>Example 1</h5>
+		</th>
+		<tr>
+			<td class="con"><u>U1:</u> i said no</td>
+			<td class="x" rowspan="3"><em>context</em></td>
+		</tr>
+		<tr>
+			<td class="con"><u>U2:</u> you said no to who and to what </td>
+			<td class="x">&nbsp;</td>
+		</tr>
+		<tr>
+			<td class="con"><u>U1:</u> from morning edition</td>
+			<td class="x">&nbsp;</td>
+		</tr>
+		<tr>
+			<td class="con"><b><u>U2:</u> hmmm waking-up is hard.</b></td>
+			<td class="target">◄ rate this</td>
+		</tr>
 	</tbody>
-	<colgroup>
-		<col class="col-xs-8 col-md-8" />
-		<col class="col-xs-4 col-md-4" />
-	</colgroup>
-	<!-- By explaining the sentiment scale, the accuracy of the answers may increase. -->
 	<tbody>
+		<th>
+			<h5>Example 2</h5>
+		</th>
 		<tr>
+			<td class="con"><u>U1:</u> Ok, I see.</td>
+			<td class="x" rowspan="3"><em>context</em></td>
 		</tr>
 		<tr>
-			<th>
-			<p>1 (invalid response):</p>
-			</th>
-			<th>&nbsp;</th>
+			<td class="con"><u>U2:</u> Where are you going?</td>
+			<td class="x">&nbsp;</td>
 		</tr>
 		<tr>
-			<th>
-			<p>Example 1</p>
-			</th>
-			<td>U1: Do you know google? <i>CONTEXT</i><br />
-			U2: Uh-huh, I do. <i>CONTEXT</i><br />
-			U1: who is google? <i>CONTEXT</i><br />
-			<b>U2: Not necessarily.</b></td>
+			<td class="con"><u>U1:</u> To the moon!</td>
+			<td class="x">&nbsp;</td>
 		</tr>
 		<tr>
-			<th>
-			<p>Example 2</p>
-			</th>
-			<td>U1: so what&#39;s up today? <i>CONTEXT</i><br />
-			U2: they lived together <i>CONTEXT</i><br />
-			U1: who lived together? and when? <i>CONTEXT</i><br />
-			<b>U2: where&#39;s Gordon has he changed</b></td>
+			<td class="con"><b><u>U2:</u> That&#39;s good. Reassure me.</b></td>
+			<td class="target">◄ rate this</td>
+		</tr>
+	</tbody>
+</table>
+
+<table>
+	<th>
+		<h4><b>3 (Probably acceptable response):</b></h4>
+	</th>
+	<th>&nbsp;</th>
+	<tbody>
+		<th>
+			<h5>Example 1</h5>
+		</th>
+		<tr>
+			<td class="con"><u>U1:</u> I like both actually. </td>
+			<td class="x" rowspan="3"><em>context</em></td>
 		</tr>
 		<tr>
-			<th>
-			<p>2 (Somewhat acceptable response):</p>
-			</th>
-			<th>&nbsp;</th>
+			<td class="con"><u>U2:</u> Do you watch them with your kids? </td>
+			<td class="x">&nbsp;</td>
 		</tr>
 		<tr>
-			<th>
-			<p>Example 1</p>
-			</th>
-			<td>U1: i said no <i>CONTEXT</i><br />
-			U2: you said no to who and to what <i>CONTEXT</i><br />
-			U1: from morning edition <i>CONTEXT</i><br />
-			<b>U2: hmmm waking-up is hard.</b></td>
+			<td class="con"><u>U1:</u> I don&#39;t have kids. </td>
+			<td class="x">&nbsp;</td>
 		</tr>
 		<tr>
-			<th>
-			<p>Example 2</p>
-			</th>
-			<td>U1: Ok, I see. <i>CONTEXT</i><br />
-			U2: Where are you going? <i>CONTEXT</i><br />
-			U1: To the moon! <i>CONTEXT</i><br />
-			<b>U2: That&#39;s good. Reassure me.</b></td>
+			<td class="con"><b><u>U2:</u> let us make a plan to see the latest star war movies together</b></td>
+			<td class="target">◄ rate this</td>
+		</tr>
+	</tbody>
+	<tbody>
+		<th>
+			<h5>Example 2</h5>
+		</th>
+		<tr>
+			<td class="con"><u>U1:</u> oh good i&#39;m so glad</td>
+			<td class="x" rowspan="3"><em>context</em></td>
 		</tr>
 		<tr>
-			<th>
-			<p>3 (Probably acceptable response):</p>
-			</th>
-			<th>&nbsp;</th>
+			<td class="con"><u>U2:</u> yeah me too</td>
+			<td class="x">&nbsp;</td>
 		</tr>
 		<tr>
-			<th>
-			<p>Example 1</p>
-			</th>
-			<td>U1: I like both actually. <i>CONTEXT</i><br />
-			U2: Do you watch them with your kids? <i>CONTEXT</i><br />
-			U1: I don&#39;t have kids. <i>CONTEXT</i><br />
-			<b>U2: let us make a plan to see the latest star war movies together</b></td>
+			<td class="con"><u>U1:</u> you&#39;re supposed to</td>
+			<td class="x">&nbsp;</td>
 		</tr>
 		<tr>
-			<th>
-			<p>Example 2</p>
-			</th>
-			<td>U1: oh good i&#39;m so glad <i>CONTEXT</i><br />
-			U2: yeah me too <i>CONTEXT</i><br />
-			U1: you&#39;re supposed to <i>CONTEXT</i><br />
-			<b>U2: sure, what&#39;s the weather like?</b></td>
+			<td class="con"><b><u>U2:</u> sure, what&#39;s the weather like?</b></td>
+			<td class="target">◄ rate this</td>
+		</tr>
+	</tbody>
+</table>
+
+
+<table>
+	<th>
+			<h4><b>4 (Valid response):</b></h4>
+	</th>
+	<th>&nbsp;</th>
+	<tbody>
+		<th>
+			<h5>Example 1</h5>
+		</th>
+		<tr>
+			<td class="con"><u>U1:</u> Well, I&#39;m not sure about that but did you see the movie? </td>
+			<td class="x" rowspan="3"><em>context</em></td>
 		</tr>
 		<tr>
-			<th>
-			<p>4 (Valid response):</p>
-			</th>
-			<th>&nbsp;</th>
+			<td class="con"><u>U2:</u> Do you like super hero movies or Disney movies? </td>
+			<td class="x">&nbsp;</td>
 		</tr>
 		<tr>
-			<th>
-			<p>Example 1</p>
-			</th>
-			<td>U1: Well, I&#39;m not sure about that but did you see the movie? <i>CONTEXT</i><br />
-			U2: Do you like super hero movies or Disney movies? <i>CONTEXT</i><br />
-			U1: I like both actually. <i>CONTEXT</i><br />
-			<b>U2: Do you watch them with your kids?</b></td>
+			<td class="con"><u>U1:</u> I like both actually.</td>
+			<td class="x">&nbsp;</td>
 		</tr>
 		<tr>
-			<th>
-			<p>Example 2</p>
-			</th>
-			<td>U1: let&#39;s go together! <i>CONTEXT</i><br />
-			U2: okay <i>CONTEXT</i><br />
-			U1: where do we go? <i>CONTEXT</i><br />
-			<b>U2: Martinez at 6:00</b></td>
+			<td class="con"><b><u>U2:</u> Do you watch them with your kids?</b></td>
+			<td class="target">◄ rate this</td>
+		</tr>
+	</tbody>
+	<tbody>
+		<th>
+			<h5>Example 2</h5>
+		</th>
+		<tr>
+			<td class="con"><u>U1:</u> let&#39;s go together!</td>
+			<td class="x" rowspan="3"><em>context</em></td>
+		</tr>
+		<tr>
+			<td class="con"><u>U2:</u> okay</td>
+			<td class="x">&nbsp;</td>
+		</tr>
+		<tr>
+			<td class="con"><u>U1:</u> where do we go?</td>
+			<td class="x">&nbsp;</td>
+		</tr>
+		<tr>
+			<td class="con"><b><u>U2:</u> Martinez at 6:00</b></td>
+			<td class="target">◄ rate this</td>
 		</tr>
 	</tbody>
 </table>
