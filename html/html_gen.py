@@ -182,7 +182,7 @@ def generate_instructions(path_instructions):
 
     return inst_html
 
-def generate_html_filled(path_instructions, generated_questions, dialogs):
+def generate_html_filled(path_instructions, generated_questions, dialogs, ask_name=True):
     html = """
         <HTMLQuestion xmlns="http://mechanicalturk.amazonaws.com/AWSMechanicalTurkDataSchemas/2011-11-11/HTMLQuestion.xsd">
         <HTMLContent><![CDATA[
@@ -254,8 +254,9 @@ td, th {
     f.close()
     html += scripts
     """
-    html += '<p><h3>If you are a JSALT participant, please enter your name.</h3></p>\n'
-    html += '<p><textarea cols="50" name="participant" rows="3"  required></textarea></p>\n'
+    if ask_name:
+        html += '<p><h3>If you are a JSALT participant, please enter your name.</h3></p>\n'
+        html += '<p><textarea cols="50" name="participant" rows="3"  required></textarea></p>\n'
     html += '<p>Please provide any comments you may have below, we appreciate your input!</p>\n'
     html += '<p><textarea cols="80" name="comment" rows="3">None?</textarea></p>\n'
     html += "<p><input type='submit' id='submitButton' value='Submit' /></p></form></section>\n"

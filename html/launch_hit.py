@@ -48,18 +48,18 @@ def add_attention_checks(segments, n):
     i = 0
 
     while i < len(segments):
-        batch = segments[i: min(i + n, len(segments))]
+        batch = [segments[j] for j in range(i, min(i + n, len(segments)))]
         attention = ("ATTENTION-CHECK", rand.choice(segments)[1])
         attention[1][-1] = rand.choice(segments)[1][-1]
         batch.append(attention)
         rand.shuffle(batch)
         new_segments.extend(batch)
-        i += n - 1
+        i += n
 
     return new_segments
 
 
-def create_HIT(hit_description, hit_id, mturk, path_instructions, dialogs, task, sandbox=False, qualification=False):
+def create_HIT(hit_description, hit_id, mturk, path_instructions, dialogs, task, sandbox=False, qualification=False, ask_name=True):
     question_html_value = generate_html_filled(path_instructions, 
                                                generate_n_questions_filled(
                                                    '<u>Read</u> the context sentences then <u>rate</u> the last sentence.',
@@ -67,7 +67,8 @@ def create_HIT(hit_description, hit_id, mturk, path_instructions, dialogs, task,
                                                    task_answer_dictionary[task],
                                                    dialogs,
                                                    task_warning_dictionary[task]),
-                                                dialogs)
+                                                dialogs,
+                                               ask_name=args.ask_name)
 
     question_html_value = question_html_value.encode('ascii', 'xmlcharrefreplace').decode()
     try:
@@ -79,10 +80,13 @@ def create_HIT(hit_description, hit_id, mturk, path_instructions, dialogs, task,
         # reward is what Workers will be paid when you approve their work
         # Check out the documentation on CreateHIT for more details
         if sandbox == False:
-            check = raw_input("You are about to launch into production. Are you sure? [y/N] ")
+            check = input("You are about to launch into production. Are you sure? [y/N] ")
             if not check in ['Y', 'y', 'Yes', 'yes']:
                 exit()
-
+        # JSALT participants : {'QualificationTypeId':"3TYM2RQLI3DD9VFPRP5NMOCSI6AL9O",
+        #                                           'Comparator':"EqualTo",
+        #                                           'IntegerValues':[1],
+        #                                           'RequiredToPreview': True}
         if qualification:
             response = mturk.create_hit(
                 Question=question_html_value,
@@ -93,10 +97,18 @@ def create_HIT(hit_description, hit_id, mturk, path_instructions, dialogs, task,
                 AssignmentDurationInSeconds=hit_description['AssignmentDurationInSeconds'],
                 LifetimeInSeconds=hit_description['LifetimeInSeconds'],
                 Reward=f"{hit_description['Reward'] * len(dialogs)}",
-                QualificationRequirements=[{'QualificationTypeId':"3TYM2RQLI3DD9VFPRP5NMOCSI6AL9O",
-                                          'Comparator':"EqualTo",
-                                          'IntegerValues':[1],
-                                          'RequiredToPreview': True}]
+                QualificationRequirements=[{'QualificationTypeId': "00000000000000000071",
+                                            'Comparator': 'EqualTo',
+                                           'LocaleValues': [{'Country':"US"}],
+                                          'RequiredToPreview': True},
+                                           {'QualificationTypeId': "00000000000000000040",
+                                           'Comparator':'GreaterThanOrEqualTo',
+                                            'IntegerValues': [500],
+                                            'RequiredToPreview': True},
+                                           {'QualificationTypeId': "000000000000000000L0",
+                                            'Comparator': 'GreaterThanOrEqualTo',
+                                            'IntegerValues': [97],
+                                            'RequiredToPreview': True}]
                 )
         else:
             response = mturk.create_hit(
@@ -143,6 +155,7 @@ if __name__ == '__main__':
     parser.add_argument('--title', type=str, default='JSALT 2020 : Annotation of conversation.')
     parser.add_argument('--qualification', action="store_true", default=False)
     parser.add_argument('--hit_file', type=str, default='hits.txt')
+    parser.add_argument('--ask_name', action="store_true", default=False)
     args = parser.parse_args()
 
     # Create your connection to MTurk
@@ -172,7 +185,7 @@ if __name__ == '__main__':
 
     hit_ids = []
     for i in range(0, len(segments), args.n):
-        hit_id = create_HIT(hit_description, args.name, mturk, task_instruction[args.task], segments[i:min(i + args.n, len(segments))], args.task, sandbox=args.sandbox, qualification=args.qualification)
+        hit_id = create_HIT(hit_description, args.name, mturk, task_instruction[args.task], segments[i:min(i + args.n, len(segments))], args.task, sandbox=args.sandbox, qualification=args.qualification, ask_name=args.ask_name)
         hit_ids.append(hit_id)
 
 
