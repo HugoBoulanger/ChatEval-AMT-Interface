@@ -25,6 +25,7 @@ parser.add_argument('-p', '--pay',
                     default=False, action='store_true',
                     help='Set to true to pay the workers.')
 parser.add_argument('-o', '--out_file', default='amt_hit_responses.pkl', type=str)
+parser.add_argument('--delete', default=False, action='store_true')
 
 args = parser.parse_args()
 
@@ -56,6 +57,8 @@ if __name__ == '__main__':
                             RequesterFeedback='good',
                             OverrideRejection=False,
                         )
+                if args.delete == True:
+                    mturk.delete_hit(HITId=hit_id)
 
 
             worker_results_list.append(worker_results)

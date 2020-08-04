@@ -79,10 +79,7 @@ def create_HIT(hit_description, hit_id, mturk, path_instructions, dialogs, task,
         # duration is the # of seconds Workers have to complete your HIT
         # reward is what Workers will be paid when you approve their work
         # Check out the documentation on CreateHIT for more details
-        if sandbox == False:
-            check = input("You are about to launch into production. Are you sure? [y/N] ")
-            if not check in ['Y', 'y', 'Yes', 'yes']:
-                exit()
+
         # JSALT participants : {'QualificationTypeId':"3TYM2RQLI3DD9VFPRP5NMOCSI6AL9O",
         #                                           'Comparator':"EqualTo",
         #                                           'IntegerValues':[1],
