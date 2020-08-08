@@ -5,8 +5,8 @@ import numpy as np
 import krippendorff
 from scipy import stats
 import pickle as pkl
-import re
-np.set_printoptions(threshold=sys.maxsize)
+import argparse
+# np.set_printoptions(threshold=sys.maxsize)
 
 
 def read_csv(path, dataset=''):
@@ -169,7 +169,14 @@ def print_annotation_statistics(annotations):
     print(f'How many turns have been annotated x times: {sorted(nb_annotation_per_turn.items(), key=lambda t: t[0])}')
 
 
+def ordinal(a, b):
+    if a > b:
+        a, b = b, a
+    return (sum([i for i in range(a, b+1)]) - ((a+b)/2))**2
+
+
 def compute_agreement(sce_path, nb_turns_per_hit, nb_annotators=None, wo_attention_check=False):
+    # Compute Kappa coefficient and Krippendorff's alpha with nltk library (https://www.nltk.org/api/nltk.metrics.html)
     rows = read_csv(sce_path)
     if nb_annotators:
         annotations = get_annotations(rows, nb_turns_per_hit, wo_attention_check)
@@ -179,30 +186,59 @@ def compute_agreement(sce_path, nb_turns_per_hit, nb_annotators=None, wo_attenti
     task_data = annotations2task_data(annotations, nb_annotators)
     # print(task_data)
 
-    rating_task = AnnotationTask(data=task_data)
+    rating_task = AnnotationTask(data=task_data, distance=ordinal)
     print(f"Cohen's Kappa: {rating_task.kappa()}")
     print(f"Fleiss' Kappa: {rating_task.multi_kappa()}")
+    print(f"Krippendorff's alpha with ordial metric: {rating_task.alpha()}")
 
 
-def compute_krippendorff(sce_path, wo_attention_check=False, wo_annotator=[], dataset=''):
+def compute_krippendorff(sce_path, output_path='', wo_attention_check=False, bad_annotators_path='', dataset=''):
+    """
+    Compute Krippendorff's alpha with krippendorff library
+    (https://github.com/pln-fing-udelar/fast-krippendorff/blob/master/sample.py)
+    :param sce_path: csv file with columns UID, ANSWER, ANNOTATOR
+    :param output_path: path of the output file where the results will be printed (if empty string the results are
+    printed in the standart output)
+    :param wo_attention_check: if True remove the attention check when computing alpha
+    :param bad_annotators_path: path of the pkl file containing for each threshold the list of 'bad' annotators.
+    For each threshold remove the annotations of the annotators listed when computing alpha. If empty string no
+    annotator's annotation it removed.
+    :param dataset: alphanumeric characters identifying the corpus to compute the alpha (if empty string the alpha is
+    computed with annotation from all corpora and from attention check)
+    """
+
+    if output_path:
+        sys.stdout = open(output_path, "w")
+
     rows = read_csv(sce_path, dataset=dataset)
-    annotations = get_annotations_per_annotators(rows, wo_attention_check=wo_attention_check, wo_annotator=wo_annotator)
 
-    print('- After filtering: -')
-    print_annotation_statistics(annotations)
+    bad_annotators_per_th = get_bad_annotators(bad_annotators_path)
+    for th, bad_annotators in bad_annotators_per_th.items():
+        print(f'--- Threshold {th}---')
+        annotations = get_annotations_per_annotators(rows, wo_attention_check=wo_attention_check,
+                                                     wo_annotator=bad_annotators)
 
-    ratings_per_annotator = get_annotator_tab(annotations)
+        print('- After filtering: -')
+        print_annotation_statistics(annotations)
 
-    data = [[np.nan if not r else int(r) for r in ratings] for ratings in ratings_per_annotator]
+        ratings_per_annotator = get_annotator_tab(annotations)
 
-    print("Krippendorff's alpha for nominal metric: ", krippendorff.alpha(reliability_data=data,
-                                                                          level_of_measurement='nominal'))
-    print("Krippendorff's alpha for interval metric: ", krippendorff.alpha(reliability_data=data))
-    print("Krippendorff's alpha for ordinal metric: ", krippendorff.alpha(reliability_data=data,
-                                                                          level_of_measurement='ordinal'))
+        data = [[np.nan if not r else int(r) for r in ratings] for ratings in ratings_per_annotator]
+
+        print("Krippendorff's alpha for nominal metric: ", krippendorff.alpha(reliability_data=data,
+                                                                              level_of_measurement='nominal'))
+        print("Krippendorff's alpha for interval metric: ", krippendorff.alpha(reliability_data=data))
+        print("Krippendorff's alpha for ordinal metric: ", krippendorff.alpha(reliability_data=data,
+                                                                              level_of_measurement='ordinal'))
 
 
 def compute_spearman(sce_path):
+    """
+    (!) This code is not working with the data from AMT because of missing data (it seems that it needs for each
+    annotator pair minimum 3 annotated data)
+    data
+    :param sce_path:
+    """
     rows = read_csv(sce_path)
     annotations = get_annotations_per_annotators(rows)
     print(f'nb annotated turns: {len(annotations)}')
@@ -235,41 +271,45 @@ def compute_spearman(sce_path):
 
 
 def get_bad_annotators(path):
+    if not path:
+        return {1: []}
     f = open(path, 'rb')
     annotator_per_threshold = pkl.load(f)
-    annotator_per_threshold[0] = []
     return annotator_per_threshold
 
 
-def compute_all_krippendorff():
-    ...
-
-
 if __name__ == '__main__':
-    # sce = "C:\\Users\\veron\\Documents\\jsalt\\amt_test\\validity_test_HB\\Batch_288079_batch_results.csv"
-    # compute_agreement(sce, nb_turns_per_hit=3, nb_annotators=4)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("sce", type=str,
+                        help="path of the csv file containing the annotations (columns: UID, ANSWER, ANNOTATOR)")
+    parser.add_argument("-a", "--wo_attention_check", action="store_true",
+                        help="If option used, remove the attention check when performing analysis")
+    parser.add_argument("-d", "--dataset", type=str,
+                        help="Alphanumeric characters identifying the corpus to perform the analysis (ex: TPCCHT)."
+                             "Do not use the option if you want to perform the analysis on all annotations")
+    parser.add_argument("-t", "--bad_annotators_path", type=str,
+                        help="path of the pkl file containing for each threshold the list of 'bad' annotators.")
 
-    sce = "C:\\Users\\veron\\Documents\\jsalt\\amt_test\\validity_public\\030820_first_public_finding_atts.csv"
-    wo_attention_check = False
-    dataset = ''    # 'TPCCHT' or 'MPATHY' or ''
+    args = parser.parse_args()
+    sce = args.sce
+    wo_attention_check = args.wo_attention_check
+    dataset = args.dataset
+    bad_annotators_path = args.bad_annotators_path
+
+    # sce = "C:\\Users\\veron\\Documents\\jsalt\\amt_test\\validity_public\\030820_first_public_finding_atts.csv"
+    # wo_attention_check = False
+    # dataset = ''    # 'TPCCHT' or 'MPATHY' or ''
+    # bad_annotators_path = "C:\\Users\\veron\\Documents\\jsalt\\amt_test\\validity_public\\bad_workers_last.pkl"
 
     output_file = sce.replace('.csv', '_analysis.txt')
     if wo_attention_check:
         output_file = output_file.replace('.txt', '_wo_attention_check.txt')
-    #
-    # compute_agreement(sce, nb_turns_per_hit=1, nb_annotators=5, wo_attention_check=wo_attention_check)
-
     if dataset:
         output_file = output_file.replace('.txt', f'_{dataset}.txt')
 
-    # bad_annotators_per_th = {1: []}
-    bad_annotators_per_th = get_bad_annotators("C:\\Users\\veron\Documents\\jsalt\\amt_test\\validity_public\\bad_workers_last.pkl")
-    for th, bad_annotators in bad_annotators_per_th.items():
-        if bad_annotators:
-            # output_file = output_file.replace('.txt', f'_th_{th}.txt')
-            output_file = re.sub(fr'(_th_[0-9]\.[0-9])?\.txt', f'_th_{th}.txt', output_file)
-        sys.stdout = open(output_file, "w")
+    # compute_agreement(sce, nb_turns_per_hit=1, nb_annotators=5, wo_attention_check=wo_attention_check)
 
-        compute_krippendorff(sce, wo_attention_check=wo_attention_check, wo_annotator=bad_annotators, dataset=dataset)
+    compute_krippendorff(sce, wo_attention_check=wo_attention_check, output_path=output_file, dataset=dataset,
+                         bad_annotators_path=bad_annotators_path)
 
     # compute_spearman(sce)
