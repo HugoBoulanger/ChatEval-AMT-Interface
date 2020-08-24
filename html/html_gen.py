@@ -55,15 +55,15 @@ def generate_dialogue_filled(dialog):
     dialogue = "<table>\n<tbody>\n"
 
     dialogue += f'''        <tr>
-			<td class="con"><u>U1:</u> {dialog[0]}</td>
 			<td class="x" rowspan="{len(dialog) - 1}"><em>context</em></td>
+			<td class="con"><u>U1:</u> {dialog[0]}</td>
 		</tr>
     '''
 
     for i in range(1, len(dialog)):
         dialogue += f'''        <tr>
+            {'<td class="target"> rate this &#9658;</td>' if i == len(dialog)-1 else '<td class="x">&nbsp;</td>'}
 			<td class="con">{"<b>" if i == len(dialog)-1 else ""}<u>{"U2" if i % 2 == 1 else "U1"}:</u> {dialog[i]}{"</b>" if i == len(dialog)-1 else ""}</td>
-			{'<td class="target">◄ rate this</td>' if i == len(dialog)-1 else '<td class="x">&nbsp;</td>'}
 		</tr>'''
 
     dialogue += "</tbody>\n</table>\n"

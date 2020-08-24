@@ -146,7 +146,7 @@ if __name__ == '__main__':
                        'data')
 
     sce = os.path.join(dir, 'topical_main.csv')
-    sample_turns(sce, 60, dir)
+    sample_turns(sce, 500, dir)
 
     sce = os.path.join(dir, 'MPATHY_main.csv')
-    sample_turns(sce, 60, dir)
+    sample_turns(sce, 500, dir)
