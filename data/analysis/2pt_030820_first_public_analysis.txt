@@ -1,0 +1,13 @@
+- Before filtering: -
+# of annotations: 4455
+# of annotated turns: 894
+# of annotators: 95
+- After filtering: -
+# of annotations: 4455
+# of annotated turns: 894
+# of annotators: 95
+Annotation value frequency: [('1', 1652), ('2', 2803)]
+How many turns have been annotated x times: [(2, 5), (5, 889)]
+Krippendorff's alpha for nominal metric:  0.3271708624191134
+Krippendorff's alpha for interval metric:  0.3271708624191134
+Krippendorff's alpha for ordinal metric:  0.3271708624191133

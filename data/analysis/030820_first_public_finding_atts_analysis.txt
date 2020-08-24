@@ -1,0 +1,140 @@
+--- Threshold 0.1---
+- Before filtering: -
+# of annotations: 4455
+# of annotated turns: 844
+# of annotators: 95
+- After filtering: -
+# of annotations: 1664
+# of annotated turns: 844
+# of annotators: 41
+Annotation value frequency: [('1', 512), ('2', 121), ('3', 172), ('4', 859)]
+How many turns have been annotated x times: [(1, 279), (2, 360), (3, 165), (4, 30), (5, 10)]
+Krippendorff's alpha for nominal metric:  0.5560357535311302
+Krippendorff's alpha for interval metric:  0.7797267743191827
+Krippendorff's alpha for ordinal metric:  0.760232373794547
+--- Threshold 0.2---
+- Before filtering: -
+# of annotations: 4455
+# of annotated turns: 879
+# of annotators: 95
+- After filtering: -
+# of annotations: 2169
+# of annotated turns: 879
+# of annotators: 48
+Annotation value frequency: [('1', 646), ('2', 163), ('3', 204), ('4', 1156)]
+How many turns have been annotated x times: [(1, 134), (2, 310), (3, 340), (4, 80), (5, 15)]
+Krippendorff's alpha for nominal metric:  0.5585557785510276
+Krippendorff's alpha for interval metric:  0.7860384517391108
+Krippendorff's alpha for ordinal metric:  0.7612184782205753
+--- Threshold 0.3---
+- Before filtering: -
+# of annotations: 4455
+# of annotated turns: 894
+# of annotators: 95
+- After filtering: -
+# of annotations: 2754
+# of annotated turns: 894
+# of annotators: 55
+Annotation value frequency: [('1', 804), ('2', 282), ('3', 300), ('4', 1368)]
+How many turns have been annotated x times: [(1, 39), (2, 210), (3, 335), (4, 260), (5, 50)]
+Krippendorff's alpha for nominal metric:  0.455848597284371
+Krippendorff's alpha for interval metric:  0.6996873508916428
+Krippendorff's alpha for ordinal metric:  0.6729056532595146
+--- Threshold 0.4---
+- Before filtering: -
+# of annotations: 4455
+# of annotated turns: 894
+# of annotators: 95
+- After filtering: -
+# of annotations: 2858
+# of annotated turns: 894
+# of annotators: 59
+Annotation value frequency: [('1', 833), ('2', 301), ('3', 317), ('4', 1407)]
+How many turns have been annotated x times: [(1, 20), (2, 189), (3, 350), (4, 265), (5, 70)]
+Krippendorff's alpha for nominal metric:  0.4493678470677277
+Krippendorff's alpha for interval metric:  0.6933421143019365
+Krippendorff's alpha for ordinal metric:  0.6674734419031683
+--- Threshold 0.5---
+- Before filtering: -
+# of annotations: 4455
+# of annotated turns: 894
+# of annotators: 95
+- After filtering: -
+# of annotations: 3172
+# of annotated turns: 894
+# of annotators: 67
+Annotation value frequency: [('1', 900), ('2', 354), ('3', 408), ('4', 1510)]
+How many turns have been annotated x times: [(2, 100), (3, 314), (4, 370), (5, 110)]
+Krippendorff's alpha for nominal metric:  0.4173583140809831
+Krippendorff's alpha for interval metric:  0.6773780060757557
+Krippendorff's alpha for ordinal metric:  0.6519938534037171
+--- Threshold 0.6---
+- Before filtering: -
+# of annotations: 4455
+# of annotated turns: 894
+# of annotators: 95
+- After filtering: -
+# of annotations: 3362
+# of annotated turns: 894
+# of annotators: 70
+Annotation value frequency: [('1', 948), ('2', 415), ('3', 439), ('4', 1560)]
+How many turns have been annotated x times: [(2, 40), (3, 274), (4, 440), (5, 140)]
+Krippendorff's alpha for nominal metric:  0.3829603676705766
+Krippendorff's alpha for interval metric:  0.6334523138354795
+Krippendorff's alpha for ordinal metric:  0.6135797847912958
+--- Threshold 0.7---
+- Before filtering: -
+# of annotations: 4455
+# of annotated turns: 894
+# of annotators: 95
+- After filtering: -
+# of annotations: 3392
+# of annotated turns: 894
+# of annotators: 72
+Annotation value frequency: [('1', 951), ('2', 421), ('3', 452), ('4', 1568)]
+How many turns have been annotated x times: [(2, 40), (3, 259), (4, 440), (5, 155)]
+Krippendorff's alpha for nominal metric:  0.37702070953742683
+Krippendorff's alpha for interval metric:  0.6284025873534553
+Krippendorff's alpha for ordinal metric:  0.6093132298242963
+--- Threshold 0.8---
+- Before filtering: -
+# of annotations: 4455
+# of annotated turns: 894
+# of annotators: 95
+- After filtering: -
+# of annotations: 3447
+# of annotated turns: 894
+# of annotators: 74
+Annotation value frequency: [('1', 960), ('2', 429), ('3', 458), ('4', 1600)]
+How many turns have been annotated x times: [(2, 20), (3, 254), (4, 455), (5, 165)]
+Krippendorff's alpha for nominal metric:  0.3710341538265284
+Krippendorff's alpha for interval metric:  0.6209934848855057
+Krippendorff's alpha for ordinal metric:  0.6020166554025572
+--- Threshold 0.9---
+- Before filtering: -
+# of annotations: 4455
+# of annotated turns: 894
+# of annotators: 95
+- After filtering: -
+# of annotations: 3562
+# of annotated turns: 894
+# of annotators: 75
+Annotation value frequency: [('1', 960), ('2', 485), ('3', 508), ('4', 1609)]
+How many turns have been annotated x times: [(2, 15), (3, 189), (4, 485), (5, 205)]
+Krippendorff's alpha for nominal metric:  0.33952842870753974
+Krippendorff's alpha for interval metric:  0.5951822029359967
+Krippendorff's alpha for ordinal metric:  0.577486589608371
+--- Threshold 1.0---
+- Before filtering: -
+# of annotations: 4455
+# of annotated turns: 894
+# of annotators: 95
+- After filtering: -
+# of annotations: 4455
+# of annotated turns: 894
+# of annotators: 95
+Annotation value frequency: [('1', 977), ('2', 675), ('3', 867), ('4', 1936)]
+How many turns have been annotated x times: [(2, 5), (5, 889)]
+Krippendorff's alpha for nominal metric:  0.19865565872234703
+Krippendorff's alpha for interval metric:  0.41178666850407963
+Krippendorff's alpha for ordinal metric:  0.3892403831124407
